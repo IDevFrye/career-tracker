@@ -69,6 +69,7 @@ func (s *ApplicationService) AddApplication(request models.ApplicationRequest) (
 			"stage_name":     stage.StageName,
 			"status":        stage.Status,
 			"date":          stage.Date,
+			"comment":       stage.Comment,
 		}, false, "", "", "").Execute()
 		if err != nil {
 			return 0, err
@@ -97,7 +98,7 @@ func (s *ApplicationService) ListApplications() ([]models.ApplicationResponse, e
 	for i, app := range applications {
 		var stages []models.ApplicationStage
 		stageBytes, _, err := s.supabase.GetClient().From("application_stages").
-			Select("stage_name,status", "", false).
+			Select("stage_name,status,date,comment", "", false).
 			Eq("application_id", strconv.Itoa(app.ID)).
 			Execute()
 
@@ -128,7 +129,7 @@ func (s *ApplicationService) GetApplication(id int) (*models.ApplicationDetail, 
 	}
 
 	stageBytes, _, err := s.supabase.GetClient().From("application_stages").
-		Select("stage_name,status,date", "", false).
+		Select("stage_name,status,date,comment", "", false).
 		Eq("application_id", strconv.Itoa(id)).
 		Execute()
 
@@ -194,6 +195,7 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 					"stage_name":    stage.StageName,
 					"status":        stage.Status,
 					"date":          stage.Date,
+					"comment":       stage.Comment,
 				}, false, "", "", "").
 				Execute()
 

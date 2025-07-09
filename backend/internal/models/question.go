@@ -25,7 +25,8 @@ type QuestionUpdate struct {
 }
 
 type QuestionResponse struct {
-	ID       int      `json:"id"`
-	Question string   `json:"question"`
-	Tags     []string `json:"tags"`
+	ID            int      `json:"id"`
+	ApplicationID int      `json:"application_id"`
+	Question      string   `json:"question"`
+	Tags          []string `json:"tags"`
 }

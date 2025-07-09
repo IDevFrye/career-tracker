@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/IDevFrye/main/internal/models"
-	"github.com/IDevFrye/maingit/internal/services"
+	"github.com/IDevFrye/main/internal/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -58,9 +58,10 @@ func (q *QuestionAPI) ListAllQuestions(c *gin.Context) {
 	var responses []models.QuestionResponse
 	for _, q := range questions {
 		responses = append(responses, models.QuestionResponse{
-			ID:       q.ID,
-			Question: q.Question,
-			Tags:     q.Tags,
+			ID:            q.ID,
+			ApplicationID: q.ApplicationID,
+			Question:      q.Question,
+			Tags:          q.Tags,
 		})
 	}
 
