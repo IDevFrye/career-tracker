@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import vacanciesReducer from "./vacanciesSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    vacancies: vacanciesReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

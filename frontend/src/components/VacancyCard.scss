@@ -1,0 +1,214 @@
+.vacancy-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+
+  &:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+    border-color: #e0e0e0;
+  }
+
+  &__content {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: -5px;
+  }
+
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+
+  &__company {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  &__status {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    color: #555;
+
+    .status-active {
+      color: #4caf50;
+      font-weight: 600;
+    }
+  }
+
+  &__date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  &__link {
+    margin-top: 12px;
+
+    .hh-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff3535, #f71e1e);
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(255, 53, 53, 0.3);
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 53, 53, 0.4);
+        background: linear-gradient(135deg, #ff2222, #ff0000);
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &__stages {
+    position: relative;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .stages-container {
+      display: flex;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .stage-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #e9ecef;
+        transform: translateY(-1px);
+      }
+
+      .stage-icon {
+        margin-bottom: 4px;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .stage-info {
+        text-align: center;
+        width: 100%;
+
+        .stage-name {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 2px;
+          line-height: 1.2;
+        }
+
+        .stage-date {
+          font-size: 0.7rem;
+          color: #666;
+          margin-bottom: 2px;
+        }
+
+        .stage-status {
+          font-size: 0.7rem;
+          font-weight: 500;
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .stage-scroll-btn {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #666;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        background: #f5f5f5;
+        color: #333;
+        transform: scale(1.05);
+      }
+
+      &.stage-scroll-left {
+        margin-right: 4px;
+      }
+
+      &.stage-scroll-right {
+        margin-left: 4px;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .vacancy-card {
+    padding: 16px;
+
+    &__content {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    &__stages {
+      min-width: auto;
+      width: 100%;
+
+      .stages-container {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  }
+}

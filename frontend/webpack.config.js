@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -17,7 +18,12 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        use: "ts-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.json",
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -42,6 +48,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
     }),
+    new Dotenv(),
   ],
   devServer: {
     static: {
@@ -51,9 +58,6 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
-    proxy: {
-      "/api": "http://localhost:8080",
-    },
   },
   mode: "development",
 };
