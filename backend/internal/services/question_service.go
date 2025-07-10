@@ -84,6 +84,9 @@ func (s *QuestionService) ListQuestions() ([]models.Question, error) {
 
 func (s *QuestionService) UpdateQuestion(id int, question models.QuestionUpdate) error {
 	updates := make(map[string]interface{})
+	if question.ApplicationID != nil {
+		updates["application_id"] = *question.ApplicationID
+	}
 	if question.Question != nil {
 		updates["question"] = *question.Question
 	}
@@ -103,4 +106,17 @@ func (s *QuestionService) UpdateQuestion(id int, question models.QuestionUpdate)
 		Execute()
 
 	return err
+}
+
+func (s *QuestionService) DeleteQuestion(id int) error {
+	_, _, err := s.supabase.GetClient().From("interview_questions").
+		Delete("", "").
+		Eq("id", strconv.Itoa(id)).
+		Execute()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

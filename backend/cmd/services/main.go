@@ -37,7 +37,6 @@ func loadConfig() (*Config, error) {
 }
 
 func main() {
-	// Загрузка конфигурации
 	config, err := loadConfig()
 	if err != nil {
 		log.Fatal("Ошибка загрузки конфигурации:", err)

@@ -207,7 +207,6 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 }
 
 func (s *ApplicationService) DeleteApplication(id int) error {
-	// Сначала удаляем все стадии приложения
 	_, _, err := s.supabase.GetClient().From("application_stages").
 		Delete("", "").
 		Eq("application_id", strconv.Itoa(id)).

@@ -23,6 +23,7 @@ func (q *QuestionAPI) RegisterRoutes(r *gin.Engine) {
 	r.POST("/api/questions", q.AddQuestion)
 	r.GET("/api/questions/:id", q.GetQuestion)
 	r.PUT("/api/questions/:id", q.UpdateQuestion)
+	r.DELETE("/api/questions/:id", q.DeleteQuestion)
 }
 
 func (q *QuestionAPI) GetApplicationQuestions(c *gin.Context) {
@@ -62,6 +63,8 @@ func (q *QuestionAPI) ListAllQuestions(c *gin.Context) {
 			ApplicationID: q.ApplicationID,
 			Question:      q.Question,
 			Tags:          q.Tags,
+			Difficulty:    q.Difficulty,
+			CreatedAt:     q.CreatedAt,
 		})
 	}
 
@@ -114,6 +117,21 @@ func (q *QuestionAPI) UpdateQuestion(c *gin.Context) {
 	}
 
 	if err := q.service.UpdateQuestion(id, update); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+}
+
+func (q *QuestionAPI) DeleteQuestion(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid question ID"})
+		return
+	}
+
+	if err := q.service.DeleteQuestion(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

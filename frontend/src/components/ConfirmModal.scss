@@ -150,7 +150,6 @@
   }
 }
 
-// Анимации
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -171,7 +170,6 @@
   }
 }
 
-// Адаптивность
 @media (max-width: 480px) {
   .confirm-modal {
     padding: 20px;

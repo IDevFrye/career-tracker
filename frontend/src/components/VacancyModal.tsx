@@ -13,7 +13,6 @@ import "./VacancyModal.scss";
 import { StageIcons } from "./VacancyCard";
 import EditVacancyModal from "./EditVacancyModal";
 
-// SVG-иконки и утилита цвета статуса прямо тут
 const HhIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
     <circle cx="12" cy="12" r="12" fill="#D6001C" />
@@ -66,7 +65,6 @@ const PhoneIcon = (props: React.SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-// StageIcons и getStatusColor (актуализированные)
 function getMainStatusColor(status: string) {
   switch ((status || "").toLowerCase()) {
     case "активный":
@@ -144,7 +142,6 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
     dispatch<any>(fetchVacancyQuestions(id));
   }, [id, open, dispatch]);
 
-  // Скрываем тултип при клике вне его и скролле
   useEffect(() => {
     const handleClickOutside = () => {
       setTooltip(null);
@@ -164,7 +161,6 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
     }
   }, [tooltip]);
 
-  // Очищаем таймер при размонтировании
   useEffect(() => {
     return () => {
       if (tooltipTimerRef.current) {
@@ -183,11 +179,8 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
     try {
       await dispatch<any>(updateVacancy({ id, ...data }));
       setEditModalOpen(false);
-      // Обновляем детали вакансии и список вакансий
       dispatch<any>(fetchVacancyDetails(id));
       dispatch<any>(fetchVacancies());
-
-      // Очищаем кэш localStorage для таблицы
       localStorage.removeItem("vacancyDetailsCache");
     } catch (error) {
       console.error("Ошибка при обновлении вакансии:", error);
@@ -202,7 +195,6 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
     try {
       await dispatch<any>(deleteVacancy(id));
       onClose();
-      // Очищаем кэш localStorage для таблицы
       localStorage.removeItem("vacancyDetailsCache");
     } catch (error) {
       console.error("Ошибка при удалении вакансии:", error);
@@ -211,14 +203,12 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
 
   if (!open) return null;
 
-  // SVG для типа
   const typeIcon =
     vacancy?.type === "Открытая" ? (
       <LockOpenIcon style={{ marginRight: 6 }} />
     ) : (
       <LockClosedIcon style={{ marginRight: 6 }} />
     );
-  // Роль (категория)
   const role =
     vacancy?.roles && Array.isArray(vacancy.roles) && vacancy.roles.length > 0
       ? vacancy.roles[0]

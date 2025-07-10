@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import TrackerPage from "./pages/TrackerPage";
+import QuestionsPage from "./pages/QuestionsPage";
 import Header from "./components/Header";
 import "./App.scss";
 
@@ -13,9 +14,7 @@ const App: React.FC = () => {
       case "tracker":
         return <TrackerPage />;
       case "questions":
-        return (
-          <div className="page-placeholder">Страница вопросов в разработке</div>
-        );
+        return <QuestionsPage />;
       case "analytics":
         return (
           <div className="page-placeholder">

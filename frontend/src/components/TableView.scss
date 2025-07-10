@@ -18,7 +18,6 @@
 .table-view th,
 .table-view td {
   position: relative;
-  /* Убираем text-overflow и max-width */
   overflow: visible;
   white-space: normal;
   max-width: none;

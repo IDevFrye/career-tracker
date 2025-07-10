@@ -131,7 +131,6 @@ const EditVacancyModal: React.FC<EditVacancyModalProps> = ({
   const [error, setError] = useState("");
   const [initialData, setInitialData] = useState<any>(null);
 
-  // Заполняем форму данными вакансии при открытии
   useEffect(() => {
     if (vacancy && open) {
       const initialStages = vacancy.stages.map((stage) => ({
@@ -152,7 +151,6 @@ const EditVacancyModal: React.FC<EditVacancyModalProps> = ({
       setRecruiter(initialRecruiter);
       setError("");
 
-      // Сохраняем начальные данные для сравнения
       setInitialData({
         title: vacancy.title,
         status: vacancy.status,
@@ -165,16 +163,13 @@ const EditVacancyModal: React.FC<EditVacancyModalProps> = ({
 
   if (!open || !vacancy) return null;
 
-  // Проверяем, изменились ли данные
   const hasChanges = () => {
     if (!initialData) return false;
 
-    // Проверяем основные поля
     if (title !== initialData.title || status !== initialData.status) {
       return true;
     }
 
-    // Проверяем рекрутера
     if (showRecruiter !== initialData.showRecruiter) {
       return true;
     }
@@ -187,7 +182,6 @@ const EditVacancyModal: React.FC<EditVacancyModalProps> = ({
       return true;
     }
 
-    // Проверяем стадии
     if (stages.length !== initialData.stages.length) {
       return true;
     }

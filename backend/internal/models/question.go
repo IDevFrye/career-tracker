@@ -15,13 +15,15 @@ type Question struct {
 	Answer        string   `json:"answer"`
 	Tags          []string `json:"tags"`
 	Difficulty    int      `json:"difficulty"`
+	CreatedAt     string   `json:"created_at"`
 }
 
 type QuestionUpdate struct {
-	Question   *string   `json:"question,omitempty"`
-	Answer     *string   `json:"answer,omitempty"`
-	Tags       *[]string `json:"tags,omitempty"`
-	Difficulty *int      `json:"difficulty,omitempty"`
+	ApplicationID *int      `json:"application_id,omitempty"`
+	Question      *string   `json:"question,omitempty"`
+	Answer        *string   `json:"answer,omitempty"`
+	Tags          *[]string `json:"tags,omitempty"`
+	Difficulty    *int      `json:"difficulty,omitempty"`
 }
 
 type QuestionResponse struct {
@@ -29,4 +31,6 @@ type QuestionResponse struct {
 	ApplicationID int      `json:"application_id"`
 	Question      string   `json:"question"`
 	Tags          []string `json:"tags"`
+	Difficulty    int      `json:"difficulty"`
+	CreatedAt     string   `json:"created_at"`
 }

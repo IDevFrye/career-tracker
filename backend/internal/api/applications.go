@@ -107,7 +107,6 @@ func (a *ApplicationAPI) updateApplication(c *gin.Context) {
 		return
 	}
 
-	// Возвращаем обновленную вакансию
 	application, err := a.service.GetApplication(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения обновленной вакансии"})

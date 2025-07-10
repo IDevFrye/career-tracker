@@ -31,10 +31,8 @@ const TrackerPage: React.FC = () => {
   useEffect(() => {
     dispatch(fetchVacancies());
 
-    // Периодическое обновление данных каждые 5 минут
     const interval = setInterval(() => {
       dispatch(fetchVacancies());
-      // Очищаем кэш localStorage для таблицы
       localStorage.removeItem("vacancyDetailsCache");
     }, 5 * 60 * 1000);
 
@@ -44,7 +42,6 @@ const TrackerPage: React.FC = () => {
   const handleAddVacancy = async (data: any) => {
     await dispatch(addVacancy(data));
     dispatch(fetchVacancies());
-    // Очищаем кэш localStorage для таблицы
     localStorage.removeItem("vacancyDetailsCache");
     setIsModalOpen(false);
   };
@@ -58,7 +55,6 @@ const TrackerPage: React.FC = () => {
     if (vacancyToDelete) {
       try {
         await dispatch(deleteVacancy(vacancyToDelete));
-        // Очищаем кэш localStorage для таблицы
         localStorage.removeItem("vacancyDetailsCache");
       } catch (error) {
         console.error("Ошибка при удалении вакансии:", error);
@@ -115,8 +111,21 @@ const TrackerPage: React.FC = () => {
           className="add-vacancy-btn"
           onClick={() => setIsModalOpen(true)}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 12h14m-7 7V5"
+            />
           </svg>
           Добавить отклик
         </button>

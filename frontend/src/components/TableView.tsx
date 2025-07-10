@@ -78,10 +78,8 @@ const SortArrow = ({ dir }: { dir: "asc" | "desc" }) => (
   </span>
 );
 
-// Разрешённые для сортировки индексы
-const sortableCols = [0, 1, 2, 8]; // id, title, company, stages
-// Индексы фильтруемых колонок
-const filterableCols = [4, 5, 6, 7]; // work_schedule, experience, employment_type, roles
+const sortableCols = [0, 1, 2, 8];
+const filterableCols = [4, 5, 6, 7];
 
 const PAGE_SIZE = 10;
 
@@ -93,7 +91,7 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
   );
   const [showCols, setShowCols] = useState<boolean[]>(columns.map(() => true));
   const [showColMenu, setShowColMenu] = useState(false);
-  const [sortCol, setSortCol] = useState<number>(0); // индекс столбца
+  const [sortCol, setSortCol] = useState<number>(0);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [filters, setFilters] = useState<{ [colIdx: number]: string }>({});
   const [page, setPage] = useState(1);
@@ -103,12 +101,10 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
   const startWidth = useRef<number>(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Сброс страницы при смене фильтров
   React.useEffect(() => {
     setPage(1);
   }, [filters]);
 
-  // Загружаем кэш из localStorage при монтировании
   useEffect(() => {
     const cacheStr = localStorage.getItem(VACANCY_CACHE_KEY);
     if (cacheStr) {
@@ -120,14 +116,12 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
     setIsCacheLoaded(true);
   }, []);
 
-  // Сохраняем кэш при изменении details
   useEffect(() => {
     if (isCacheLoaded) {
       localStorage.setItem(VACANCY_CACHE_KEY, JSON.stringify(details));
     }
   }, [details, isCacheLoaded]);
 
-  // Запросы к API только после загрузки кэша
   useEffect(() => {
     if (!isCacheLoaded) return;
     vacancies.forEach((v) => {
@@ -139,10 +133,8 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
         });
       }
     });
-    // eslint-disable-next-line
   }, [vacancies, isCacheLoaded]);
 
-  // Собираем уникальные значения для фильтров
   const uniqueValues: { [colIdx: number]: string[] } = {};
   vacancies.forEach((v) => {
     const d = details[v.id];
@@ -151,16 +143,12 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
       if (!uniqueValues[5]) uniqueValues[5] = [];
       if (!uniqueValues[6]) uniqueValues[6] = [];
       if (!uniqueValues[7]) uniqueValues[7] = [];
-      // work_schedule
       if (d.work_schedule && !uniqueValues[4].includes(d.work_schedule))
         uniqueValues[4].push(d.work_schedule);
-      // experience
       if (d.experience && !uniqueValues[5].includes(d.experience))
         uniqueValues[5].push(d.experience);
-      // employment_type
       if (d.employment_type && !uniqueValues[6].includes(d.employment_type))
         uniqueValues[6].push(d.employment_type);
-      // roles
       if (Array.isArray(d.roles)) {
         d.roles.forEach((role: string) => {
           if (role && !uniqueValues[7].includes(role))
@@ -169,19 +157,13 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
       }
     }
   });
-  // Сортируем значения для удобства
   Object.values(uniqueValues).forEach((arr) => arr.sort());
 
-  // Фильтрация данных
   const filteredVacancies = [...vacancies].filter((v) => {
     const d = details[v.id];
-    // work_schedule
     if (filters[4] && (!d || d.work_schedule !== filters[4])) return false;
-    // experience
     if (filters[5] && (!d || d.experience !== filters[5])) return false;
-    // employment_type
     if (filters[6] && (!d || d.employment_type !== filters[6])) return false;
-    // roles (хотя бы одна совпадает)
     if (
       filters[7] &&
       (!d || !Array.isArray(d.roles) || !d.roles.includes(filters[7]))
@@ -190,7 +172,6 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
     return true;
   });
 
-  // Drag-to-resize logic
   const onMouseDown = (idx: number, e: React.MouseEvent) => {
     resizingCol.current = idx;
     startX.current = e.clientX;
@@ -217,7 +198,6 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
     document.removeEventListener("mouseup", onMouseUp);
   };
 
-  // Click outside menu to close
   useEffect(() => {
     if (!showColMenu) return;
     const handler = (e: MouseEvent) => {
@@ -229,11 +209,9 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
     return () => document.removeEventListener("mousedown", handler);
   }, [showColMenu]);
 
-  // Сортировка данных
   const getCellValue = (v: any, d: any, colIdx: number) => {
     switch (columns[colIdx].key) {
       case "id":
-        // Для сортировки используем реальный ID, но для отображения будем показывать порядковый номер
         return v.id;
       case "title":
         return v.title || "";
@@ -273,7 +251,6 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
       : String(valB).localeCompare(String(valA), "ru");
   });
 
-  // Пагинация
   const totalPages = Math.ceil(sortedVacancies.length / PAGE_SIZE) || 1;
   const pagedVacancies = sortedVacancies.slice(
     (page - 1) * PAGE_SIZE,
@@ -363,7 +340,6 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
                   )
               )}
             </tr>
-            {/* Фильтры */}
             <tr>
               {columns.map(
                 (col, idx) =>
@@ -474,7 +450,6 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
             })}
           </tbody>
         </table>
-        {/* Пагинация */}
         <div
           style={{
             display: "flex",

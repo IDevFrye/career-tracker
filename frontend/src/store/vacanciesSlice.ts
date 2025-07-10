@@ -168,19 +168,15 @@ const vacanciesSlice = createSlice({
         if (index !== -1) {
           state.items[index] = action.payload;
         }
-        // Обновляем детали вакансии
         if (state.details) {
           state.details[action.payload.id] = action.payload;
         }
       })
       .addCase(deleteVacancy.fulfilled, (state, action) => {
-        // Удаляем вакансию из списка
         state.items = state.items.filter((item) => item.id !== action.payload);
-        // Удаляем детали вакансии из кэша
         if (state.details) {
           delete state.details[action.payload];
         }
-        // Удаляем вопросы вакансии из кэша
         if (state.questions) {
           delete state.questions[action.payload];
         }

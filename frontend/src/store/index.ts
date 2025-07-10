@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import vacanciesReducer from "./vacanciesSlice";
+import questionsReducer from "./questionsSlice";
 
 export const store = configureStore({
   reducer: {
     vacancies: vacanciesReducer,
+    questions: questionsReducer,
   },
 });
 
