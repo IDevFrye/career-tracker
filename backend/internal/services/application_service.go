@@ -145,7 +145,6 @@ func (s *ApplicationService) GetApplication(id int) (*models.ApplicationDetail, 
 
 func (s *ApplicationService) UpdateApplication(id int, request struct {
 	Title           *string `json:"title,omitempty"`
-	Type            *string `json:"type,omitempty"`
 	RecruiterName   *string `json:"recruiter_name,omitempty"`
 	RecruiterContact *string `json:"recruiter_contact,omitempty"`
 	Status          *string `json:"status,omitempty"`
@@ -154,9 +153,6 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 	updates := make(map[string]interface{})
 	if request.Title != nil {
 		updates["title"] = *request.Title
-	}
-	if request.Type != nil {
-		updates["type"] = *request.Type
 	}
 	if request.RecruiterName != nil {
 		updates["recruiter_name"] = *request.RecruiterName
@@ -205,6 +201,30 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 				return errors.New("ошибка добавления этапа")
 			}
 		}
+	}
+
+	return nil
+}
+
+func (s *ApplicationService) DeleteApplication(id int) error {
+	// Сначала удаляем все стадии приложения
+	_, _, err := s.supabase.GetClient().From("application_stages").
+		Delete("", "").
+		Eq("application_id", strconv.Itoa(id)).
+		Execute()
+
+	if err != nil {
+		return errors.New("ошибка удаления этапов")
+	}
+
+	// Затем удаляем само приложение
+	_, _, err = s.supabase.GetClient().From("applications").
+		Delete("", "").
+		Eq("id", strconv.Itoa(id)).
+		Execute()
+
+	if err != nil {
+		return errors.New("ошибка удаления отклика")
 	}
 
 	return nil

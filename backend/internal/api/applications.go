@@ -22,6 +22,7 @@ func (a *ApplicationAPI) RegisterRoutes(r *gin.Engine) {
 	r.GET("/api/vacancies", a.listApplications)
 	r.GET("/api/vacancies/:id", a.getApplication)
 	r.PUT("/api/vacancies/:id", a.updateApplication)
+	r.DELETE("/api/vacancies/:id", a.deleteApplication)
 }
 
 func (a *ApplicationAPI) addApplication(c *gin.Context) {
@@ -66,6 +67,21 @@ func (a *ApplicationAPI) getApplication(c *gin.Context) {
 	c.JSON(http.StatusOK, application)
 }
 
+func (a *ApplicationAPI) deleteApplication(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный ID"})
+		return
+	}
+
+	if err := a.service.DeleteApplication(id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+}
+
 func (a *ApplicationAPI) updateApplication(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -75,7 +91,6 @@ func (a *ApplicationAPI) updateApplication(c *gin.Context) {
 
 	var request struct {
 		Title           *string `json:"title,omitempty"`
-		Type            *string `json:"type,omitempty"`
 		RecruiterName   *string `json:"recruiter_name,omitempty"`
 		RecruiterContact *string `json:"recruiter_contact,omitempty"`
 		Status          *string `json:"status,omitempty"`
@@ -92,5 +107,12 @@ func (a *ApplicationAPI) updateApplication(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	// Возвращаем обновленную вакансию
+	application, err := a.service.GetApplication(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения обновленной вакансии"})
+		return
+	}
+
+	c.JSON(http.StatusOK, application)
 }

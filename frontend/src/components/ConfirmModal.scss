@@ -1,0 +1,196 @@
+.confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.confirm-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid #e5e7eb;
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: #ef4444;
+    font-size: 48px;
+    line-height: 1;
+
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__content {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+
+  &__message {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  &__btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 80px;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &--cancel {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+
+      &:hover {
+        background: #e5e7eb;
+        border-color: #9ca3af;
+      }
+    }
+
+    &--confirm {
+      background: #ef4444;
+      color: white;
+      font-weight: 600;
+
+      &--danger {
+        background: #ef4444;
+        border: 1px solid #dc2626;
+
+        &:hover {
+          background: #dc2626;
+          border-color: #b91c1c;
+        }
+      }
+
+      &--warning {
+        background: #f59e0b;
+        border: 1px solid #d97706;
+
+        &:hover {
+          background: #d97706;
+          border-color: #b45309;
+        }
+      }
+
+      &--info {
+        background: #3b82f6;
+        border: 1px solid #2563eb;
+
+        &:hover {
+          background: #2563eb;
+          border-color: #1d4ed8;
+        }
+      }
+    }
+  }
+
+  // Типы модальных окон
+  &--danger {
+    .confirm-modal__icon {
+      color: #ef4444;
+    }
+  }
+
+  &--warning {
+    .confirm-modal__icon {
+      color: #f59e0b;
+    }
+  }
+
+  &--info {
+    .confirm-modal__icon {
+      color: #3b82f6;
+    }
+  }
+}
+
+// Анимации
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// Адаптивность
+@media (max-width: 480px) {
+  .confirm-modal {
+    padding: 20px;
+    margin: 16px;
+
+    &__title {
+      font-size: 18px;
+    }
+
+    &__message {
+      font-size: 13px;
+    }
+
+    &__actions {
+      flex-direction: column;
+    }
+
+    &__btn {
+      width: 100%;
+    }
+  }
+}

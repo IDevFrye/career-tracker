@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./AddVacancyModal.scss";
+import React, { useState, useEffect } from "react";
+import "./EditVacancyModal.scss";
 import { StageIcons } from "./VacancyCard";
 
 interface StageForm {
@@ -15,24 +15,25 @@ interface RecruiterForm {
   recruiter_contact: string;
 }
 
-interface AddVacancyModalProps {
+interface EditVacancyModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: {
-    url: string;
+    title: string;
+    status: string;
     recruiter_name?: string;
     recruiter_contact?: string;
     stages: StageForm[];
   }) => void;
+  vacancy: {
+    id: number;
+    title: string;
+    status: string;
+    recruiter_name?: string;
+    recruiter_contact?: string;
+    stages: StageForm[];
+  } | null;
 }
-
-const defaultStage = (): StageForm => ({
-  stage_name: "Отклик",
-  status: "sent",
-  date: new Date().toISOString(),
-  comment: "",
-  icon: "Компьютер",
-});
 
 const ICONS = [
   { value: "Компьютер", icon: StageIcons["Компьютер"] },
@@ -40,18 +41,24 @@ const ICONS = [
   { value: "Репозиторий", icon: StageIcons["Репозиторий"] },
   { value: "Файл", icon: StageIcons["Файл"] },
   { value: "Тест", icon: StageIcons["Тест"] },
-
   { value: "Телефон", icon: StageIcons["Телефон"] },
   { value: "Человек", icon: StageIcons["Человек"] },
   { value: "Диалог", icon: StageIcons["Диалог"] },
   { value: "Камера", icon: StageIcons["Камера"] },
   { value: "Резюме", icon: StageIcons["Резюме"] },
-
   { value: "Книжка", icon: StageIcons["Книжка"] },
   { value: "Карандаш", icon: StageIcons["Карандаш"] },
   { value: "Медаль", icon: StageIcons["Медаль"] },
   { value: "Календарь", icon: StageIcons["Календарь"] },
   { value: "Куб", icon: StageIcons["Куб"] },
+];
+
+const STATUS_OPTIONS = [
+  { value: "Активный", color: "#3B82F6" },
+  { value: "Проигнорированный", color: "#8B5CF6" },
+  { value: "Заброшенный", color: "#6B7280" },
+  { value: "Оффер", color: "#10B981" },
+  { value: "Отклонённый", color: "#EF4444" },
 ];
 
 const IconPickerGrid = ({
@@ -98,39 +105,111 @@ const IconPickerGrid = ({
   );
 };
 
-function getLocalDateTimeString() {
-  const now = new Date();
-  now.setSeconds(0, 0);
-  const tzOffset = now.getTimezoneOffset() * 60000;
-  const localISOTime = new Date(now.getTime() - tzOffset)
+function getLocalDateTimeString(dateString: string) {
+  const date = new Date(dateString);
+  const tzOffset = date.getTimezoneOffset() * 60000;
+  const localISOTime = new Date(date.getTime() - tzOffset)
     .toISOString()
     .slice(0, 16);
   return localISOTime;
 }
 
-const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
+const EditVacancyModal: React.FC<EditVacancyModalProps> = ({
   open,
   onClose,
   onSubmit,
+  vacancy,
 }) => {
-  const [url, setUrl] = useState("");
-  const [stages, setStages] = useState<StageForm[]>([
-    {
-      stage_name: "",
-      status: "",
-      date: getLocalDateTimeString(),
-      comment: "",
-      icon: "Компьютер",
-    },
-  ]);
+  const [title, setTitle] = useState("");
+  const [status, setStatus] = useState("");
+  const [stages, setStages] = useState<StageForm[]>([]);
   const [showRecruiter, setShowRecruiter] = useState(false);
   const [recruiter, setRecruiter] = useState<RecruiterForm>({
     recruiter_name: "",
     recruiter_contact: "",
   });
   const [error, setError] = useState("");
+  const [initialData, setInitialData] = useState<any>(null);
 
-  if (!open) return null;
+  // Заполняем форму данными вакансии при открытии
+  useEffect(() => {
+    if (vacancy && open) {
+      const initialStages = vacancy.stages.map((stage) => ({
+        ...stage,
+        date: getLocalDateTimeString(stage.date),
+        icon: stage.icon || "Книжка",
+      }));
+
+      const initialRecruiter = {
+        recruiter_name: vacancy.recruiter_name || "",
+        recruiter_contact: vacancy.recruiter_contact || "",
+      };
+
+      setTitle(vacancy.title);
+      setStatus(vacancy.status);
+      setStages(initialStages);
+      setShowRecruiter(!!(vacancy.recruiter_name || vacancy.recruiter_contact));
+      setRecruiter(initialRecruiter);
+      setError("");
+
+      // Сохраняем начальные данные для сравнения
+      setInitialData({
+        title: vacancy.title,
+        status: vacancy.status,
+        stages: initialStages,
+        recruiter: initialRecruiter,
+        showRecruiter: !!(vacancy.recruiter_name || vacancy.recruiter_contact),
+      });
+    }
+  }, [vacancy, open]);
+
+  if (!open || !vacancy) return null;
+
+  // Проверяем, изменились ли данные
+  const hasChanges = () => {
+    if (!initialData) return false;
+
+    // Проверяем основные поля
+    if (title !== initialData.title || status !== initialData.status) {
+      return true;
+    }
+
+    // Проверяем рекрутера
+    if (showRecruiter !== initialData.showRecruiter) {
+      return true;
+    }
+
+    if (
+      showRecruiter &&
+      (recruiter.recruiter_name !== initialData.recruiter.recruiter_name ||
+        recruiter.recruiter_contact !== initialData.recruiter.recruiter_contact)
+    ) {
+      return true;
+    }
+
+    // Проверяем стадии
+    if (stages.length !== initialData.stages.length) {
+      return true;
+    }
+
+    for (let i = 0; i < stages.length; i++) {
+      const current = stages[i];
+      const initial = initialData.stages[i];
+
+      if (
+        !initial ||
+        current.stage_name !== initial.stage_name ||
+        current.status !== initial.status ||
+        current.date !== initial.date ||
+        current.comment !== initial.comment ||
+        current.icon !== initial.icon
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   const handleStageChange = (
     idx: number,
@@ -148,7 +227,7 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
       {
         stage_name: "",
         status: "",
-        date: getLocalDateTimeString(),
+        date: new Date().toISOString().slice(0, 16),
         comment: "",
         icon: "Книжка",
       },
@@ -161,8 +240,12 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url) {
-      setError("Укажите ссылку на вакансию");
+    if (!title.trim()) {
+      setError("Укажите название вакансии");
+      return;
+    }
+    if (!status) {
+      setError("Выберите статус вакансии");
       return;
     }
     if (
@@ -178,7 +261,8 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
       date: new Date(stage.date).toISOString().replace(/\.\d{3}Z$/, "Z"),
     }));
     onSubmit({
-      url,
+      title: title.trim(),
+      status,
       recruiter_name: showRecruiter ? recruiter.recruiter_name : undefined,
       recruiter_contact: showRecruiter
         ? recruiter.recruiter_contact
@@ -191,21 +275,34 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
     <div className="modal-backdrop">
       <div className="modal">
         <div className="modal__header">
-          <h2>Добавить отклик</h2>
+          <h2>Редактировать отклик</h2>
           <button className="modal__close-x" onClick={onClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
             </svg>
           </button>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="edit-vacancy-form">
           <input
-            type="url"
-            placeholder="Ссылка на вакансию (hh.ru) *"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            type="text"
+            placeholder="Название вакансии *"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            required
+            className="vacancy-status-select"
+          >
+            <option value="">Статус вакансии *</option>
+            {STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.value}
+              </option>
+            ))}
+          </select>
           <div className="modal__stages">
             <div className="modal__stages-header">
               <span>Стадии</span>
@@ -321,20 +418,29 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
             </button>
           )}
           {error && <div className="modal__error">{error}</div>}
-          <div className="modal__actions">
-            <button type="submit">Добавить</button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="modal__close-btn"
-            >
-              Отмена
-            </button>
-          </div>
         </form>
+        <div className="modal__actions">
+          <button
+            type="button"
+            disabled={!hasChanges()}
+            onClick={() => {
+              const form = document.getElementById(
+                "edit-vacancy-form"
+              ) as HTMLFormElement;
+              if (form) {
+                form.requestSubmit();
+              }
+            }}
+          >
+            Сохранить
+          </button>
+          <button type="button" onClick={onClose} className="modal__close-btn">
+            Отмена
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AddVacancyModal;
+export default EditVacancyModal;
