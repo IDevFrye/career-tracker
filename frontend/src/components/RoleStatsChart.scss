@@ -1,0 +1,138 @@
+.role-stats-chart {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 20px 0;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__chart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+  }
+
+  &__center {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__total {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #9ca3af;
+    text-align: center;
+
+    svg {
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+  }
+
+  &__legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  &__legend-label {
+    font-size: 13px;
+    color: #374151;
+    flex: 1;
+  }
+
+  &__legend-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    min-width: 20px;
+    text-align: right;
+  }
+}
+
+@media (max-width: 640px) {
+  .role-stats-chart {
+    padding: 16px;
+
+    &__title {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    &__content {
+      gap: 16px;
+    }
+
+    &__total {
+      font-size: 20px;
+    }
+
+    &__legend {
+      max-width: 180px;
+    }
+  }
+}

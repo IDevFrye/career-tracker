@@ -1,4 +1,5 @@
 import React from "react";
+import ThemeToggle from "./ThemeToggle";
 import "./Header.scss";
 
 interface HeaderProps {
@@ -11,7 +12,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
     <header className="header">
       <div className="header__container">
         <div className="header__logo">
-          <h1>Career Tracker</h1>
+          <h1>
+            <span className="hh-link__logo"></span>
+          </h1>
         </div>
         <nav className="header__nav">
           <button
@@ -87,6 +90,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
             Аналитика
           </button>
         </nav>
+        <div className="header__actions">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

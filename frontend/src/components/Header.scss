@@ -16,6 +16,15 @@
     height: 64px;
 
     .header__logo {
+      .hh-link__logo {
+        background-image: url(../images/app_logo.svg);
+        height: 180px;
+        width: 180px;
+        display: block;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: 100%;
+      }
       h1 {
         margin: 0;
         font-size: 1.5rem;
@@ -66,6 +75,12 @@
         }
       }
     }
+
+    .header__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
   }
 }
 
@@ -94,6 +109,10 @@
             height: 18px;
           }
         }
+      }
+
+      .header__actions {
+        gap: 8px;
       }
     }
   }
