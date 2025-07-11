@@ -17,7 +17,7 @@ func NewApplicationAPI(service *services.ApplicationService) *ApplicationAPI {
 	return &ApplicationAPI{service: service}
 }
 
-func (a *ApplicationAPI) RegisterRoutes(r *gin.Engine) {
+func (a *ApplicationAPI) RegisterRoutes(r *gin.RouterGroup) {
 	r.POST("/api/vacancies", a.addApplication)
 	r.GET("/api/vacancies", a.listApplications)
 	r.GET("/api/vacancies/:id", a.getApplication)
@@ -32,7 +32,8 @@ func (a *ApplicationAPI) addApplication(c *gin.Context) {
 		return
 	}
 
-	appID, err := a.service.AddApplication(request)
+	userID, _ := c.Get("user_id")
+	appID, err := a.service.AddApplication(request, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -42,7 +43,8 @@ func (a *ApplicationAPI) addApplication(c *gin.Context) {
 }
 
 func (a *ApplicationAPI) listApplications(c *gin.Context) {
-	applications, err := a.service.ListApplications()
+	userID, _ := c.Get("user_id")
+	applications, err := a.service.ListApplications(userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -57,8 +59,8 @@ func (a *ApplicationAPI) getApplication(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный ID"})
 		return
 	}
-
-	application, err := a.service.GetApplication(id)
+	userID, _ := c.Get("user_id")
+	application, err := a.service.GetApplication(id, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
@@ -73,8 +75,8 @@ func (a *ApplicationAPI) deleteApplication(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный ID"})
 		return
 	}
-
-	if err := a.service.DeleteApplication(id); err != nil {
+	userID, _ := c.Get("user_id")
+	if err := a.service.DeleteApplication(id, userID.(string)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -101,13 +103,13 @@ func (a *ApplicationAPI) updateApplication(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат данных"})
 		return
 	}
-
-	if err := a.service.UpdateApplication(id, request); err != nil {
+	userID, _ := c.Get("user_id")
+	if err := a.service.UpdateApplication(id, request, userID.(string)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	application, err := a.service.GetApplication(id)
+	application, err := a.service.GetApplication(id, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения обновленной вакансии"})
 		return

@@ -16,7 +16,7 @@ const QuestionsPage: React.FC = () => {
     loading,
     error,
   } = useSelector((state: RootState) => state.questions);
-  const { details: vacancyDetails } = useSelector(
+  const { details: vacancyDetails, items: vacancies } = useSelector(
     (state: RootState) => state.vacancies
   );
 
@@ -39,7 +39,7 @@ const QuestionsPage: React.FC = () => {
 
   useEffect(() => {
     const uniqueVacancyIds = [
-      ...new Set(questions.map((q) => q.application_id)),
+      ...new Set(questions?.map((q) => q.application_id)),
     ];
     uniqueVacancyIds.forEach((id) => {
       if (!vacancyDetails?.[id]) {
@@ -50,14 +50,14 @@ const QuestionsPage: React.FC = () => {
 
   const allTags = useMemo(() => {
     const tags = new Set<string>();
-    questions.forEach((question) => {
+    questions?.forEach((question) => {
       question.tags?.forEach((tag) => tags.add(tag));
     });
     return Array.from(tags).sort();
   }, [questions]);
 
   const allVacancies = useMemo(() => {
-    const vacancyIds = [...new Set(questions.map((q) => q.application_id))];
+    const vacancyIds = [...new Set(questions?.map((q) => q.application_id))];
     return vacancyIds.map((id) => ({
       id,
       title: vacancyDetails?.[id]?.title || `Отклик #${id}`,
@@ -65,7 +65,7 @@ const QuestionsPage: React.FC = () => {
   }, [questions, vacancyDetails]);
 
   const filteredAndSortedQuestions = useMemo(() => {
-    let filtered = questions.filter((question) => {
+    let filtered = questions?.filter((question) => {
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matchesQuestion = question.question.toLowerCase().includes(query);
@@ -96,7 +96,7 @@ const QuestionsPage: React.FC = () => {
       return true;
     });
 
-    filtered.sort((a, b) => {
+    filtered?.sort((a, b) => {
       let aValue: any, bValue: any;
 
       switch (sortBy) {
@@ -280,20 +280,141 @@ const QuestionsPage: React.FC = () => {
           <div className="questions-page__loading">Загрузка вопросов...</div>
         ) : error ? (
           <div className="questions-page__error">{error}</div>
-        ) : filteredAndSortedQuestions.length === 0 ? (
+        ) : !vacancies || vacancies.length === 0 ? (
           <div className="questions-page__empty">
-            {questions.length === 0
-              ? "Вопросов пока нет. Добавьте первый вопрос!"
-              : "По вашему запросу ничего не найдено. Попробуйте изменить фильтры."}
+            <div className="questions-page__empty-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h3 className="questions-page__empty-title">Нет откликов</h3>
+            <p className="questions-page__empty-description">
+              Чтобы добавлять вопросы, сначала создайте хотя бы один отклик на
+              вакансию.
+            </p>
+            <button
+              className="questions-page__empty-btn"
+              onClick={() => {
+                window.location.href = "/";
+                setTimeout(() => {
+                  const addBtn = document.querySelector(
+                    ".add-vacancy-btn"
+                  ) as HTMLElement;
+                  if (addBtn) addBtn.click();
+                }, 500);
+              }}
+            >
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 12h14m-7 7V5"
+                />
+              </svg>
+              Добавить отклик
+            </button>
+          </div>
+        ) : !questions || questions.length === 0 ? (
+          <div className="questions-page__empty">
+            <div className="questions-page__empty-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h3 className="questions-page__empty-title">Вопросов пока нет</h3>
+            <p className="questions-page__empty-description">
+              Добавьте первый вопрос, чтобы начать собирать свою базу знаний для
+              будущих интервью!
+            </p>
+            <button
+              className="questions-page__empty-btn"
+              onClick={() => setAddModalOpen(true)}
+            >
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 12h14m-7 7V5"
+                />
+              </svg>
+              Добавить вопрос
+            </button>
+          </div>
+        ) : filteredAndSortedQuestions?.length === 0 ? (
+          <div className="questions-page__empty">
+            <div className="questions-page__empty-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h3 className="questions-page__empty-title">Ничего не найдено</h3>
+            <p className="questions-page__empty-description">
+              По вашему запросу ничего не найдено. Попробуйте изменить фильтры
+              или поисковый запрос.
+            </p>
+            <button
+              className="questions-page__empty-btn"
+              onClick={clearFilters}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Очистить фильтры
+            </button>
           </div>
         ) : (
           <>
             <div className="questions-page__stats">
-              Показано {filteredAndSortedQuestions.length} из {questions.length}{" "}
-              вопросов
+              {filteredAndSortedQuestions &&
+                questions &&
+                `Показано${" "}
+              ${filteredAndSortedQuestions?.length} из ${questions?.length}{" "}
+              вопросов`}
             </div>
             <div className="questions-page__grid">
-              {filteredAndSortedQuestions.map((question) => (
+              {filteredAndSortedQuestions?.map((question) => (
                 <QuestionCard
                   key={question.id}
                   question={question}

@@ -1,5 +1,4 @@
 .dark-theme {
-  background-color: #1f2937;
   color: #f9fafb;
 
   .header {
@@ -274,7 +273,6 @@
 .dark-theme .modal__stage-fields-row1,
 .dark-theme .modal__stage-fields-row2,
 .dark-theme .modal__stage-scroll-btn .modal__stage-scroll-btn-left,
-.dark-theme,
 .dark-theme .modal__stage-scroll-btn-right,
 .dark-theme .modal__actions,
 .dark-theme .modal__recruiter-container,
@@ -346,10 +344,17 @@
 }
 
 .dark-theme .stats-page__metric,
-.dark-theme .stats-page__metric-value,
 .dark-theme .stats-page__metric-label {
   background: #232b36 !important;
   color: #f9fafb !important;
+}
+
+.dark-theme .stats-page__metric-value--danger {
+  color: #dc2626 !important;
+}
+
+.dark-theme .stats-page__metric-value--success {
+  color: #059669 !important;
 }
 
 .dark-theme .questions-page__grid,
@@ -431,7 +436,6 @@
   color: #f9fafb !important;
 }
 
-.dark-theme .question-card__vacancy,
 .dark-theme .question-card__tag-more,
 .dark-theme .question-card__tag {
   background: #232b36 !important;
@@ -578,7 +582,8 @@
 }
 
 .dark-theme .question-card__stars,
-.dark-theme .question-modal__stars {
+.dark-theme .question-modal__stars,
+.dark-theme .vacancy-modal__question-diff {
   color: #ffd600 !important;
 }
 .dark-theme .question-card__stars svg,
@@ -657,8 +662,34 @@
   .modal__stage-icon-select
   .icon-picker-grid
   .icon-picker-popover
-  .icon-picker-cell.selected {
+  .icon-picker-cell.selected,
+.dark-theme .stages-timeline__tooltip,
+.dark-theme .table-view__page-info,
+.dark-theme .table-cols-menu label,
+.dark-theme .table-view__page-btn,
+.dark-theme .table-cols-toggle-btn {
   background: #232b36 !important;
   color: #f9fafb !important;
   border-color: #4b5563 !important;
+}
+
+.dark-theme .question-card__vacancy,
+.dark-theme .questions-page__tag-btn:hover {
+  border-left: 3px solid #3b82f6;
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .questions-page__tag-btn.active {
+  background: #3b82f6 !important;
+  color: #efeff0 !important;
+}
+
+.dark-theme .edit-question-modal__form label,
+.dark-theme .questions-page__filters label,
+.dark-theme .modal__stages-header span,
+.dark-theme .questions-page__empty-btn,
+.dark-theme .tracker-page__empty-btn,
+.dark-theme .stats-page__empty-btn {
+  color: #f9fafb !important;
 }

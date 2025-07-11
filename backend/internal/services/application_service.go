@@ -18,7 +18,7 @@ func NewApplicationService(supabase *SupabaseService) *ApplicationService {
 	return &ApplicationService{supabase: supabase}
 }
 
-func (s *ApplicationService) AddApplication(request models.ApplicationRequest) (int, error) {
+func (s *ApplicationService) AddApplication(request models.ApplicationRequest, userID string) (int, error) {
 	vacancyID, err := utils.ExtractVacancyID(request.URL)
 	if err != nil {
 		return 0, err
@@ -45,6 +45,7 @@ func (s *ApplicationService) AddApplication(request models.ApplicationRequest) (
 		"type":             vacancy.Type.Name,
 		"recruiter_name":   request.RecruiterName,
 		"recruiter_contact": request.RecruiterContact,
+		"user_id":          userID,
 	}, false, "", "", "").Execute()
 
 	if err != nil {
@@ -80,11 +81,12 @@ func (s *ApplicationService) AddApplication(request models.ApplicationRequest) (
 	return appID, nil
 }
 
-func (s *ApplicationService) ListApplications() ([]models.ApplicationResponse, error) {
+func (s *ApplicationService) ListApplications(userID string) ([]models.ApplicationResponse, error) {
 	var applications []models.ApplicationResponse
 
 	resultBytes, _, err := s.supabase.GetClient().From("applications").
 		Select("id,title,company,original_url,status,created_at", "", false).
+		Eq("user_id", userID).
 		Order("created_at", &postgrest.OrderOpts{Ascending: false}).
 		Execute()
 
@@ -112,12 +114,13 @@ func (s *ApplicationService) ListApplications() ([]models.ApplicationResponse, e
 	return applications, nil
 }
 
-func (s *ApplicationService) GetApplication(id int) (*models.ApplicationDetail, error) {
+func (s *ApplicationService) GetApplication(id int, userID string) (*models.ApplicationDetail, error) {
 	var application models.ApplicationDetail
 
 	resultBytes, _, err := s.supabase.GetClient().From("applications").
 		Select("*", "", false).
 		Eq("id", strconv.Itoa(id)).
+		Eq("user_id", userID).
 		Single().
 		Execute()
 
@@ -149,7 +152,7 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 	RecruiterContact *string `json:"recruiter_contact,omitempty"`
 	Status          *string `json:"status,omitempty"`
 	Stages          *[]models.ApplicationStage `json:"stages,omitempty"`
-}) error {
+}, userID string) error {
 	updates := make(map[string]interface{})
 	if request.Title != nil {
 		updates["title"] = *request.Title
@@ -168,6 +171,7 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 		_, _, err := s.supabase.GetClient().From("applications").
 			Update(updates, "", "").
 			Eq("id", strconv.Itoa(id)).
+			Eq("user_id", userID).
 			Execute()
 
 		if err != nil {
@@ -206,8 +210,17 @@ func (s *ApplicationService) UpdateApplication(id int, request struct {
 	return nil
 }
 
-func (s *ApplicationService) DeleteApplication(id int) error {
-	_, _, err := s.supabase.GetClient().From("application_stages").
+func (s *ApplicationService) DeleteApplication(id int, userID string) error {
+	_, _, err := s.supabase.GetClient().From("applications").
+		Select("id", "", false).
+		Eq("id", strconv.Itoa(id)).
+		Eq("user_id", userID).
+		Single().
+		Execute()
+	if err != nil {
+		return errors.New("нет доступа к удалению этой записи")
+	}
+	_, _, err = s.supabase.GetClient().From("application_stages").
 		Delete("", "").
 		Eq("application_id", strconv.Itoa(id)).
 		Execute()
@@ -216,10 +229,10 @@ func (s *ApplicationService) DeleteApplication(id int) error {
 		return errors.New("ошибка удаления этапов")
 	}
 
-	// Затем удаляем само приложение
 	_, _, err = s.supabase.GetClient().From("applications").
 		Delete("", "").
 		Eq("id", strconv.Itoa(id)).
+		Eq("user_id", userID).
 		Execute()
 
 	if err != nil {

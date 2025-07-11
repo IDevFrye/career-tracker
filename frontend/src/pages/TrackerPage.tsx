@@ -134,20 +134,108 @@ const TrackerPage: React.FC = () => {
         <div className="tracker-page__loading">Загрузка...</div>
       ) : viewMode === "cards" ? (
         <>
-          {error && <div className="error">{error}</div>}
-          <div className="tracker-page__list">
-            {items.map((vacancy) => (
-              <VacancyCard
-                key={vacancy.id}
-                vacancy={vacancy}
-                onClick={() => setSelectedVacancyId(vacancy.id)}
-                onDelete={() => handleDeleteVacancy(vacancy.id)}
-              />
-            ))}
-          </div>
+          {items.length === 0 ? (
+            <div className="tracker-page__empty">
+              <div className="tracker-page__empty-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 className="tracker-page__empty-title">Нет откликов</h3>
+              <p className="tracker-page__empty-description">
+                Начните отслеживать свои отклики на вакансии. Добавьте первый
+                отклик, чтобы видеть прогресс поиска работы.
+              </p>
+              <button
+                className="tracker-page__empty-btn"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <svg
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 12h14m-7 7V5"
+                  />
+                </svg>
+                Добавить первый отклик
+              </button>
+            </div>
+          ) : (
+            <div className="tracker-page__list">
+              {items.map((vacancy) => (
+                <VacancyCard
+                  key={vacancy.id}
+                  vacancy={vacancy}
+                  onClick={() => setSelectedVacancyId(vacancy.id)}
+                  onDelete={() => handleDeleteVacancy(vacancy.id)}
+                />
+              ))}
+            </div>
+          )}
         </>
       ) : (
-        <TableView vacancies={items} />
+        <>
+          {error && <div className="error">{error}</div>}
+          {items.length === 0 ? (
+            <div className="tracker-page__empty">
+              <div className="tracker-page__empty-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3 className="tracker-page__empty-title">Нет откликов</h3>
+              <p className="tracker-page__empty-description">
+                Начните отслеживать свои отклики на вакансии. Добавьте первый
+                отклик, чтобы видеть прогресс поиска работы.
+              </p>
+              <button
+                className="tracker-page__empty-btn"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <svg
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 12h14m-7 7V5"
+                  />
+                </svg>
+                Добавить первый отклик
+              </button>
+            </div>
+          ) : (
+            <TableView vacancies={items} />
+          )}
+        </>
       )}
       <AddVacancyModal
         open={isModalOpen}

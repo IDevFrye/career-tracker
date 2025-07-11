@@ -12,9 +12,10 @@ func NewStatsService(supabase *SupabaseService) *StatsService {
 	return &StatsService{supabase: supabase}
 }
 
-func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
+func (s *StatsService) GetRolesStats(userID string) ([]RoleStat, error) {
 	rolesBytes, _, err := s.supabase.GetClient().From("applications").
 		Select("roles", "", false).
+		Eq("user_id", userID).
 		Execute()
 
 	if err != nil {
@@ -41,6 +42,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		totalBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Execute()
 
 		var total []map[string]interface{}
@@ -52,6 +54,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		activeBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Eq("status", "Активный").
 			Execute()
 
@@ -64,6 +67,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		rejectedBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Eq("status", "Отклонённый").
 			Execute()
 
@@ -76,6 +80,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		offerBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Eq("status", "Оффер").
 			Execute()
 
@@ -88,6 +93,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		ignoredBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Eq("status", "Проигнорированный").
 			Execute()
 
@@ -100,6 +106,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		abandonedBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Eq("status", "Заброшенный").
 			Execute()
 

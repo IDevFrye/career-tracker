@@ -1,0 +1,76 @@
+.auth-page {
+  min-height: 100vh;
+  background: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__header {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem 2rem;
+    margin: 0 auto;
+  }
+
+  &__logo {
+    background-image: url(../images/app_logo2.svg);
+    height: 92px;
+    width: 400px;
+    display: block;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  &__content {
+    div {
+      width: 100%;
+    }
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    background: var(--surface);
+    border-radius: 1rem;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    button {
+      border-radius: 1rem;
+      background-color: var(--primary);
+      color: var(--text-primary);
+    }
+    form > div > button {
+      border-radius: 1rem;
+      background: #3b82f6;
+      border-color: #1354bd;
+      &:hover:not(:disabled),
+      &:focus:not(:disabled),
+      &:active:not(:disabled) {
+        background: #1354bd;
+      }
+    }
+    input {
+      color: var(--text-primary);
+    }
+
+    .supabase-auth-ui_ui-message {
+      border-radius: 1rem;
+      border: 1px solid #e757574f;
+      background-color: #e757574f;
+      color: var(--text-primary);
+      padding: 0.5rem;
+    }
+    .auth-ui-button {
+      background-color: var(--primary);
+      color: white;
+    }
+  }
+}

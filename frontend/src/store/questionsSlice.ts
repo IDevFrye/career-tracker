@@ -124,9 +124,6 @@ const questionsSlice = createSlice({
         state.loadingDetails = null;
         state.errorDetails = action.meta.arg;
       })
-      .addCase(addQuestion.fulfilled, (state, action) => {
-        state.items = [...state.items];
-      })
       .addCase(updateQuestion.fulfilled, (state, action) => {
         if (state.details) {
           state.details[action.payload.id] = action.payload;

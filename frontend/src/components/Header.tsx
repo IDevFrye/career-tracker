@@ -1,13 +1,14 @@
 import React from "react";
 import ThemeToggle from "./ThemeToggle";
+import { supabase } from "../supabaseClient";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Header.scss";
 
-interface HeaderProps {
-  currentPage: string;
-  onPageChange: (page: string) => void;
-}
+const Header: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPath = location.pathname;
 
-const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
   return (
     <header className="header">
       <div className="header__container">
@@ -19,9 +20,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         <nav className="header__nav">
           <button
             className={`header__nav-item ${
-              currentPage === "tracker" ? "active" : ""
+              currentPath === "/" ? "active" : ""
             }`}
-            onClick={() => onPageChange("tracker")}
+            onClick={() => navigate("/")}
           >
             <svg
               aria-hidden="true"
@@ -43,9 +44,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
           </button>
           <button
             className={`header__nav-item ${
-              currentPage === "questions" ? "active" : ""
+              currentPath === "/questions" ? "active" : ""
             }`}
-            onClick={() => onPageChange("questions")}
+            onClick={() => navigate("/questions")}
           >
             <svg
               aria-hidden="true"
@@ -67,9 +68,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
           </button>
           <button
             className={`header__nav-item ${
-              currentPage === "analytics" ? "active" : ""
+              currentPath === "/stats" ? "active" : ""
             }`}
-            onClick={() => onPageChange("analytics")}
+            onClick={() => navigate("/stats")}
           >
             <svg
               aria-hidden="true"
@@ -92,6 +93,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange }) => {
         </nav>
         <div className="header__actions">
           <ThemeToggle />
+          <button
+            className="header__logout-btn"
+            onClick={() => supabase.auth.signOut()}
+          >
+            Выйти
+          </button>
         </div>
       </div>
     </header>

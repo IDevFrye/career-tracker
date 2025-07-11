@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/IDevFrye/main/internal/api"
+	"github.com/IDevFrye/main/internal/middleware"
 	"github.com/IDevFrye/main/internal/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,9 @@ type Config struct {
 	CORS struct {
 		Origins []string `yaml:"origins"`
 	} `yaml:"cors"`
+	Auth struct {
+		JwtSecret string `yaml:"jwt_secret"`
+	} `yaml:"auth"`
 }
 
 func loadConfig() (*Config, error) {
@@ -44,29 +48,26 @@ func main() {
 
 	r := gin.Default()
 	
-	// Настройка CORS из конфигурации
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     config.CORS.Origins,
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}))
 
-	// Инициализация сервисов
 	supabaseService := services.NewSupabaseService()
 	applicationService := services.NewApplicationService(supabaseService)
 	questionService := services.NewQuestionService(supabaseService)
 	statsService := services.NewStatsService(supabaseService)
 
-	// Инициализация API
 	applicationAPI := api.NewApplicationAPI(applicationService)
 	questionAPI := api.NewQuestionAPI(questionService)
 	statsAPI := api.NewStatsAPI(statsService)
 
-	// Маршруты
-	applicationAPI.RegisterRoutes(r)
-	questionAPI.RegisterRoutes(r)
-	statsAPI.RegisterRoutes(r)
+	apiGroup := r.Group("/", middleware.AuthRequired([]byte(config.Auth.JwtSecret)))
+	applicationAPI.RegisterRoutes(apiGroup)
+	questionAPI.RegisterRoutes(apiGroup)
+	statsAPI.RegisterRoutes(apiGroup)
 
 	r.Run(":8080")
 }

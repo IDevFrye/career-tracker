@@ -213,14 +213,11 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
     vacancy?.roles && Array.isArray(vacancy.roles) && vacancy.roles.length > 0
       ? vacancy.roles[0]
       : null;
-  // Скиллы
   const skills =
     vacancy?.skills && Array.isArray(vacancy.skills) ? vacancy.skills : [];
 
-  // Timeline: вычисление цветов линий
   const getLineType = (idx: number) => {
     if (!vacancy?.stages) return "gray";
-    // Найти первую "Отклонено"
     const firstDeclinedIdx = vacancy.stages.findIndex(
       (s: any) => (s.status || "").toLowerCase() === "отклонено"
     );
@@ -323,7 +320,6 @@ const VacancyModal: React.FC<VacancyModalProps> = ({
                         onMouseEnter={(e) => {
                           if (stage.comment) {
                             const element = e.currentTarget;
-                            // Очищаем предыдущий таймер
                             if (tooltipTimerRef.current) {
                               clearTimeout(tooltipTimerRef.current);
                             }

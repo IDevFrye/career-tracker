@@ -470,10 +470,11 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
               color: "#1976d2",
               cursor: page === 1 ? "not-allowed" : "pointer",
             }}
+            className="table-view__page-btn"
           >
             ←
           </button>
-          <span style={{ fontSize: 15, color: "#222" }}>
+          <span style={{ fontSize: 15 }} className="table-view__page-info">
             Страница {page} из {totalPages}
           </span>
           <button
@@ -487,6 +488,7 @@ const TableView: React.FC<TableViewProps> = ({ vacancies }) => {
               color: "#1976d2",
               cursor: page === totalPages ? "not-allowed" : "pointer",
             }}
+            className="table-view__page-btn"
           >
             →
           </button>

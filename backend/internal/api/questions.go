@@ -17,7 +17,7 @@ func NewQuestionAPI(service *services.QuestionService) *QuestionAPI {
 	return &QuestionAPI{service: service}
 }
 
-func (q *QuestionAPI) RegisterRoutes(r *gin.Engine) {
+func (q *QuestionAPI) RegisterRoutes(r *gin.RouterGroup) {
 	r.GET("/api/vacancies/:id/questions", q.GetApplicationQuestions)
 	r.GET("/api/questions", q.ListAllQuestions)
 	r.POST("/api/questions", q.AddQuestion)
@@ -32,30 +32,22 @@ func (q *QuestionAPI) GetApplicationQuestions(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid application ID"})
 		return
 	}
-
-	questions, err := q.service.ListQuestions()
+	userID, _ := c.Get("user_id")
+	questions, err := q.service.ListQuestionsByApplication(appID, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
-	var appQuestions []models.Question
-	for _, q := range questions {
-		if q.ApplicationID == appID {
-			appQuestions = append(appQuestions, q)
-		}
-	}
-
-	c.JSON(http.StatusOK, appQuestions)
+	c.JSON(http.StatusOK, questions)
 }
 
 func (q *QuestionAPI) ListAllQuestions(c *gin.Context) {
-	questions, err := q.service.ListQuestions()
+	userID, _ := c.Get("user_id")
+	questions, err := q.service.ListQuestionsForUser(userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	var responses []models.QuestionResponse
 	for _, q := range questions {
 		responses = append(responses, models.QuestionResponse{
@@ -67,7 +59,6 @@ func (q *QuestionAPI) ListAllQuestions(c *gin.Context) {
 			CreatedAt:     q.CreatedAt,
 		})
 	}
-
 	c.JSON(http.StatusOK, responses)
 }
 
@@ -77,13 +68,12 @@ func (q *QuestionAPI) AddQuestion(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	id, err := q.service.AddQuestion(question)
+	userID, _ := c.Get("user_id")
+	id, err := q.service.AddQuestion(question, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusCreated, gin.H{"id": id})
 }
 
@@ -93,13 +83,12 @@ func (q *QuestionAPI) GetQuestion(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid question ID"})
 		return
 	}
-
-	question, err := q.service.GetQuestion(id)
+	userID, _ := c.Get("user_id")
+	question, err := q.service.GetQuestion(id, userID.(string))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, question)
 }
 
@@ -109,18 +98,16 @@ func (q *QuestionAPI) UpdateQuestion(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid question ID"})
 		return
 	}
-
 	var update models.QuestionUpdate
 	if err := c.BindJSON(&update); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if err := q.service.UpdateQuestion(id, update); err != nil {
+	userID, _ := c.Get("user_id")
+	if err := q.service.UpdateQuestion(id, update, userID.(string)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
 
@@ -130,11 +117,10 @@ func (q *QuestionAPI) DeleteQuestion(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid question ID"})
 		return
 	}
-
-	if err := q.service.DeleteQuestion(id); err != nil {
+	userID, _ := c.Get("user_id")
+	if err := q.service.DeleteQuestion(id, userID.(string)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }
