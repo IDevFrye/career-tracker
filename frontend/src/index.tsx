@@ -7,8 +7,6 @@ import "./styles/global.scss";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
-console.log("VITE_SUPABASE_URL:", process.env.VITE_SUPABASE_URL);
-
 root.render(
   <Provider store={store}>
     <App />
