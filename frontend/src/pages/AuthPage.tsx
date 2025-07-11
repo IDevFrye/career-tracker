@@ -81,7 +81,7 @@ const AuthPage: React.FC = () => {
       </header>
       <div className="auth-page__content">
         <Auth
-          redirectTo={process.env.REACT_CLIENT_URL}
+          redirectTo={import.meta.env.REACT_CLIENT_URL}
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={["google", "github"]}
