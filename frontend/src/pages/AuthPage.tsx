@@ -81,13 +81,9 @@ const AuthPage: React.FC = () => {
       </header>
       <div className="auth-page__content">
         <Auth
-          redirectTo={process.env.VITEREACT_CLIENT_URL}
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={["google", "github"]}
-          view={isRecovery ? VIEWS.UPDATE_PASSWORD : undefined}
-          showLinks={true}
-          onlyThirdPartyProviders={false}
           localization={{
             variables: {
               sign_in: {
