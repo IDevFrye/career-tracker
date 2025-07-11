@@ -12,9 +12,10 @@ func NewStatsService(supabase *SupabaseService) *StatsService {
 	return &StatsService{supabase: supabase}
 }
 
-func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
+func (s *StatsService) GetRolesStats(userID string) ([]RoleStat, error) {
 	rolesBytes, _, err := s.supabase.GetClient().From("applications").
 		Select("roles", "", false).
+		Eq("user_id", userID).
 		Execute()
 
 	if err != nil {
@@ -41,6 +42,7 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		totalBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
+			Eq("user_id", userID).
 			Execute()
 
 		var total []map[string]interface{}
@@ -52,7 +54,8 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		activeBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
-			Eq("status", "active").
+			Eq("user_id", userID).
+			Eq("status", "Активный").
 			Execute()
 
 		var active []map[string]interface{}
@@ -64,7 +67,8 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		rejectedBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
-			Eq("status", "rejected").
+			Eq("user_id", userID).
+			Eq("status", "Отклонённый").
 			Execute()
 
 		var rejected []map[string]interface{}
@@ -76,13 +80,40 @@ func (s *StatsService) GetRolesStats() ([]RoleStat, error) {
 		offerBytes, _, _ := s.supabase.GetClient().From("applications").
 			Select("count", "exact", false).
 			Contains("roles", []string{role}).
-			Eq("status", "offer").
+			Eq("user_id", userID).
+			Eq("status", "Оффер").
 			Execute()
 
 		var offer []map[string]interface{}
 		json.Unmarshal(offerBytes, &offer)
 		if len(offer) > 0 {
 			stat.Offer = int(offer[0]["count"].(float64))
+		}
+
+		ignoredBytes, _, _ := s.supabase.GetClient().From("applications").
+			Select("count", "exact", false).
+			Contains("roles", []string{role}).
+			Eq("user_id", userID).
+			Eq("status", "Проигнорированный").
+			Execute()
+
+		var ignored []map[string]interface{}
+		json.Unmarshal(ignoredBytes, &ignored)
+		if len(ignored) > 0 {
+			stat.Ignored = int(ignored[0]["count"].(float64))
+		}
+
+		abandonedBytes, _, _ := s.supabase.GetClient().From("applications").
+			Select("count", "exact", false).
+			Contains("roles", []string{role}).
+			Eq("user_id", userID).
+			Eq("status", "Заброшенный").
+			Execute()
+
+		var abandoned []map[string]interface{}
+		json.Unmarshal(abandonedBytes, &abandoned)
+		if len(abandoned) > 0 {
+			stat.Abandoned = int(abandoned[0]["count"].(float64))
 		}
 
 		stats = append(stats, stat)
@@ -97,4 +128,6 @@ type RoleStat struct {
 	Active   int    `json:"active"`
 	Rejected int    `json:"rejected"`
 	Offer    int    `json:"offer"`
+	Ignored   int    `json:"ignored"`
+	Abandoned    int    `json:"abandoned"`
 }

@@ -1,0 +1,695 @@
+.dark-theme {
+  color: #f9fafb;
+
+  .header {
+    background-color: #111827;
+    border-bottom-color: #374151;
+  }
+
+  .nav {
+    background-color: #111827;
+    border-color: #374151;
+
+    &__link {
+      color: #d1d5db;
+
+      &:hover {
+        background-color: #374151;
+      }
+
+      &--active {
+        background-color: #3b82f6;
+        color: white;
+      }
+    }
+  }
+
+  .vacancy-card,
+  .question-card,
+  .stats-page__overview-card,
+  .stats-page__metric,
+  .role-stats-chart,
+  .modal,
+  .modal__content {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .btn {
+    &--primary {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      color: white;
+
+      &:hover {
+        background-color: #2563eb;
+        border-color: #2563eb;
+      }
+    }
+
+    &--secondary {
+      background-color: #6b7280;
+      border-color: #6b7280;
+      color: white;
+
+      &:hover {
+        background-color: #4b5563;
+        border-color: #4b5563;
+      }
+    }
+
+    &--danger {
+      background-color: #dc2626;
+      border-color: #dc2626;
+      color: white;
+
+      &:hover {
+        background-color: #b91c1c;
+        border-color: #b91c1c;
+      }
+    }
+  }
+
+  .form-group__input,
+  .form-group__textarea,
+  .form-group__select {
+    background-color: #4b5563;
+    border-color: #6b7280;
+    color: #f9fafb;
+
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .table {
+    background-color: #374151;
+    border-color: #4b5563;
+
+    th,
+    td {
+      border-color: #4b5563;
+      color: #f9fafb;
+    }
+
+    th {
+      background-color: #4b5563;
+    }
+
+    tr:hover {
+      background-color: #4b5563;
+    }
+  }
+
+  .modal__overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .modal__header {
+    border-bottom-color: #4b5563;
+  }
+
+  .modal__footer {
+    border-top-color: #4b5563;
+  }
+
+  .tooltip {
+    background-color: #1f2937;
+    color: #f9fafb;
+    border-color: #4b5563;
+  }
+
+  .status {
+    &--active {
+      background-color: #065f46;
+      color: #d1fae5;
+    }
+
+    &--rejected {
+      background-color: #991b1b;
+      color: #fecaca;
+    }
+
+    &--offer {
+      background-color: #047857;
+      color: #d1fae5;
+    }
+
+    &--ignored {
+      background-color: #7c3aed;
+      color: #e0e7ff;
+    }
+
+    &--abandoned {
+      background-color: #4b5563;
+      color: #d1d5db;
+    }
+  }
+
+  .role-stats-chart__legend-item,
+  .overall-stats-chart__legend-item {
+    color: #f9fafb;
+
+    &:hover {
+      background-color: #6b7280;
+    }
+  }
+
+  .stats-page__loading,
+  .stats-page__error,
+  .stats-page__empty {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #f9fafb;
+  }
+
+  p,
+  span,
+  div {
+    color: #d1d5db;
+  }
+  a {
+    color: #60a5fa;
+
+    &:hover {
+      color: #93c5fd;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #374151;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #6b7280;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+}
+
+.dark-theme,
+.dark-theme body,
+.dark-theme .app {
+  background: #1f2937 !important;
+}
+
+.dark-theme .vacancy-card__mini,
+.dark-theme .question-card__mini,
+.dark-theme .stats-page__mini-card,
+.dark-theme .status-card,
+.dark-theme .card,
+.dark-theme .grid-card {
+  background-color: #2d3748 !important;
+  border-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .stage-item {
+  background: #2d3748 !important;
+  border-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .table-view-wrapper,
+.dark-theme .table-view,
+.dark-theme .table-cols-menu,
+.dark-theme .table-cols-menu-container {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .table-view th,
+.dark-theme .table-view td {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .table-view tr:hover {
+  background: #374151 !important;
+}
+
+.dark-theme .MuiPagination-root,
+.dark-theme .pagination,
+.dark-theme .table-pagination {
+  background: transparent !important;
+  color: #f9fafb !important;
+}
+.dark-theme .MuiPaginationItem-root,
+.dark-theme .pagination__item {
+  background: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .modal,
+.dark-theme .modal__content,
+.dark-theme .modal__header,
+.dark-theme .modal__footer,
+.dark-theme .modal__body,
+.dark-theme .modal__stage-row,
+.dark-theme .modal__stages,
+.dark-theme .modal__stages-header,
+.dark-theme .modal__stage-fields-row1,
+.dark-theme .modal__stage-fields-row2,
+.dark-theme .modal__stage-scroll-btn .modal__stage-scroll-btn-left,
+.dark-theme .modal__stage-scroll-btn-right,
+.dark-theme .modal__actions,
+.dark-theme .modal__recruiter-container,
+.dark-theme .modal__recruiter-row1,
+.dark-theme .modal__recruiter-row2,
+.dark-theme .modal__recruiter-block,
+.dark-theme .modal__recruiter-toggle,
+.dark-theme .modal__remove-stage,
+.dark-theme .modal__close-x,
+.dark-theme .modal__close-btn {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .modal__header,
+.dark-theme .modal__footer {
+  border-color: #4b5563 !important;
+}
+.dark-theme .modal__stage-fields input,
+.dark-theme .modal__stage-fields textarea,
+.dark-theme .modal__stage-fields select {
+  background: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .vacancy-modal,
+.dark-theme .vacancy-modal__content,
+.dark-theme .vacancy-modal__header,
+.dark-theme .vacancy-modal__main-info,
+.dark-theme .vacancy-modal__stages-timeline,
+.dark-theme .vacancy-modal__questions-list,
+.dark-theme .vacancy-modal__question-card,
+.dark-theme .vacancy-modal__actions,
+.dark-theme .question-modal,
+.dark-theme .question-modal__content,
+.dark-theme .question-modal__header,
+.dark-theme .question-modal__meta,
+.dark-theme .question-modal__vacancy-card,
+.dark-theme .question-modal__section,
+.dark-theme .question-modal__actions,
+.dark-theme .confirm-modal,
+.dark-theme .confirm-modal__content {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .vacancy-modal__title-row,
+.dark-theme .question-modal__section-title {
+  color: #f9fafb !important;
+}
+
+.dark-theme .questions-page__filters,
+.dark-theme .questions-page__filter-controls,
+.dark-theme .questions-page__filter-group,
+.dark-theme .questions-page__search,
+.dark-theme .questions-page__search-input,
+.dark-theme .questions-page__select,
+.dark-theme .questions-page__tags-filter,
+.dark-theme .questions-page__tags-list {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .questions-page__tag-btn {
+  background: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .stats-page__metric,
+.dark-theme .stats-page__metric-label {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .stats-page__metric-value--danger {
+  color: #dc2626 !important;
+}
+
+.dark-theme .stats-page__metric-value--success {
+  color: #059669 !important;
+}
+
+.dark-theme .questions-page__grid,
+.dark-theme .stats-page__charts-grid,
+.dark-theme .role-stats-chart,
+.dark-theme .overall-stats-chart__chart-container {
+  background: transparent !important;
+}
+.dark-theme .overall-stats-chart__chart {
+  background: #232b36 !important;
+  border-radius: 50%;
+}
+
+.dark-theme .overall-stats-chart__center span,
+.dark-theme .overall-stats-chart__center {
+  color: #f9fafb !important;
+}
+
+.dark-theme .modal__stage-scroll-btn,
+.dark-theme .modal__stage-scroll-btn-left,
+.dark-theme .modal__stage-scroll-btn-right {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+.dark-theme .modal__stage-scroll-btn svg {
+  color: #f9fafb !important;
+  fill: #f9fafb !important;
+}
+
+.dark-theme .modal {
+  border: 2.5px solid #fff !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .vacancy-modal__role-badge,
+.dark-theme .vacancy-modal__question-tag,
+.dark-theme .vacancy-modal__questions,
+.dark-theme .vacancy-modal__skills,
+.dark-theme .vacancy-modal__skill-badge {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .stages-timeline__icon {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1.5px solid #4b5563 !important;
+}
+.dark-theme .stages-timeline__icon svg {
+  color: #f9fafb !important;
+  fill: #f9fafb !important;
+}
+
+.dark-theme .modal__stage-row,
+.dark-theme .modal__stage-fields,
+.dark-theme .modal__stage-fields-row1,
+.dark-theme .modal__stage-fields-row2,
+.dark-theme .modal__recruiter-container {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .modal__stage-fields input,
+.dark-theme .modal__stage-fields select,
+.dark-theme .modal__stage-fields textarea {
+  background: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .modal__stage-fields label {
+  color: #f9fafb !important;
+}
+.dark-theme .modal__stage-row .stage-name {
+  color: #f9fafb !important;
+}
+.dark-theme .modal__stage-icon-select svg {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .question-card__tag-more,
+.dark-theme .question-card__tag {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .question-modal__question-text,
+.dark-theme .question-modal__answer-text {
+  background: rgba(35, 43, 54, 0.7) !important;
+  color: #f9fafb !important;
+}
+.dark-theme .question-modal__tag {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .add-question-modal,
+.dark-theme .add-question-modal .modal,
+.dark-theme .add-question-modal .modal__content,
+.dark-theme .add-question-modal input,
+.dark-theme .add-question-modal textarea,
+.dark-theme .add-question-modal select {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .add-question-modal label {
+  color: #f9fafb !important;
+}
+
+.dark-theme .stats-page__metrics {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+.dark-theme .stats-page__overview-card--info {
+  background: rgba(60, 60, 80, 0.7) !important;
+  color: #f9fafb !important;
+  border-color: #7d17b8 !important;
+}
+
+.dark-theme .stats-page__overview-card--info,
+.dark-theme .stats-page__overview-icon--info {
+  background: rgba(60, 60, 80, 0.7) !important;
+  color: #f9fafb !important;
+  border-color: #7d17b8 !important;
+}
+
+.dark-theme .stats-page__overview-card--warning,
+.dark-theme .stats-page__overview-icon--warning {
+  background: rgba(60, 69, 80, 0.7) !important;
+  color: #f9fafb !important;
+  border-color: #1778b8 !important;
+}
+
+.dark-theme .stats-page__overview-card--danger,
+.dark-theme .stats-page__overview-icon--danger {
+  background: rgba(80, 60, 60, 0.7) !important;
+  color: #f9fafb !important;
+  border-color: #b81717 !important;
+}
+
+.dark-theme .stats-page__overview-card--success,
+.dark-theme .stats-page__overview-icon--success {
+  background: rgba(60, 80, 62, 0.7) !important;
+  color: #f9fafb !important;
+  border-color: #40924b !important;
+}
+
+.dark-theme .stats-page__overview-card--neutral,
+.dark-theme .stats-page__overview-icon--neutral {
+  background: rgba(179, 178, 178, 0.4) !important;
+  color: #f9fafb !important;
+  border-color: #7e7c7c !important;
+}
+
+.dark-theme .stage-name {
+  color: #f9fafb !important;
+}
+
+.dark-theme .vacancy-modal__question-card,
+.dark-theme .vacancy-modal__question-tag,
+.dark-theme .vacancy-modal__skill-badge,
+.dark-theme .vacancy-modal {
+  border: 2px solid #fff !important;
+}
+
+.dark-theme th select,
+.dark-theme .table-view th select {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+
+.dark-theme .edit-question-modal__difficulty-display {
+  color: #f9fafb !important;
+}
+
+.dark-theme .edit-vacancy-form input,
+.dark-theme .edit-vacancy-form select,
+.dark-theme .edit-vacancy-form textarea {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+
+.dark-theme .question-modal__tag,
+.dark-theme .question-modal__vacancy-card {
+  border: 2px solid #fff !important;
+}
+
+.dark-theme .add-question-modal__difficulty-display {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .edit-question-modal,
+.dark-theme .edit-question-modal .modal,
+.dark-theme .edit-question-modal .modal__content {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+.dark-theme .edit-question-modal input,
+.dark-theme .edit-question-modal select,
+.dark-theme .edit-question-modal textarea {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+.dark-theme .edit-question-modal__difficulty-display {
+  color: #f9fafb !important;
+}
+
+.dark-theme .vacancy-card__stages .stage-scroll-btn {
+  background: #232b36 !important;
+  border: 1px solid #4b5563 !important;
+  color: #f9fafb !important;
+}
+.dark-theme .vacancy-card__stages .stage-scroll-btn svg {
+  color: #f9fafb !important;
+  fill: #f9fafb !important;
+}
+
+.dark-theme .question-card__stars,
+.dark-theme .question-modal__stars,
+.dark-theme .vacancy-modal__question-diff {
+  color: #ffd600 !important;
+}
+.dark-theme .question-card__stars svg,
+.dark-theme .question-modal__stars svg {
+  color: #ffd600 !important;
+  fill: #ffd600 !important;
+}
+
+.dark-theme .edit-question-modal__tag,
+.dark-theme .add-question-modal__tag,
+.dark-theme .edit-question-modal__difficulty-display,
+.dark-theme .vacancy-modal__recruiter-block {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .stages-timeline__icon svg {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+.dark-theme .vacancy-status-select,
+.dark-theme .edit-vacancy-form input,
+.dark-theme .edit-vacancy-form select,
+.dark-theme .edit-vacancy-form textarea,
+.dark-theme .modal__recruiter-container input,
+.dark-theme .modal__recruiter-container select,
+.dark-theme .modal input,
+.dark-theme .modal select,
+.dark-theme .modal textarea {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+}
+
+.dark-theme
+  .modal
+  form
+  .modal__stages
+  .modal__stage-row
+  .modal__stage-icon-select
+  .icon-picker-grid
+  .icon-picker-btn,
+.dark-theme
+  .modal
+  form
+  .modal__stages
+  .modal__stage-row
+  .modal__stage-icon-select
+  .icon-picker-grid
+  .icon-picker-popover,
+.dark-theme
+  .modal
+  form
+  .modal__stages
+  .modal__stage-row
+  .modal__stage-icon-select
+  .icon-picker-grid
+  .icon-picker-popover
+  .icon-picker-cell,
+.dark-theme
+  .modal
+  form
+  .modal__stages
+  .modal__stage-row
+  .modal__stage-icon-select
+  .icon-picker-grid
+  .icon-picker-popover
+  .icon-picker-cell:hover,
+.dark-theme
+  .modal
+  form
+  .modal__stages
+  .modal__stage-row
+  .modal__stage-icon-select
+  .icon-picker-grid
+  .icon-picker-popover
+  .icon-picker-cell.selected,
+.dark-theme .stages-timeline__tooltip,
+.dark-theme .table-view__page-info,
+.dark-theme .table-cols-menu label,
+.dark-theme .table-view__page-btn,
+.dark-theme .table-cols-toggle-btn {
+  background: #232b36 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-theme .question-card__vacancy,
+.dark-theme .questions-page__tag-btn:hover {
+  border-left: 3px solid #3b82f6;
+  background: #232b36 !important;
+  color: #f9fafb !important;
+}
+
+.dark-theme .questions-page__tag-btn.active {
+  background: #3b82f6 !important;
+  color: #efeff0 !important;
+}
+
+.dark-theme .edit-question-modal__form label,
+.dark-theme .questions-page__filters label,
+.dark-theme .modal__stages-header span,
+.dark-theme .questions-page__empty-btn,
+.dark-theme .tracker-page__empty-btn,
+.dark-theme .stats-page__empty-btn {
+  color: #f9fafb !important;
+}

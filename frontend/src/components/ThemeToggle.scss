@@ -1,0 +1,51 @@
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: #6b7280;
+
+  &:hover {
+    background: rgba(107, 114, 128, 0.1);
+    color: #374151;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
+
+  .dark-theme & {
+    color: #9ca3af;
+
+    &:hover {
+      background: rgba(156, 163, 175, 0.1);
+      color: #d1d5db;
+    }
+  }
+}
+
+.theme-toggle__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.theme-toggle__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+
+  &--sun {
+    transform: rotate(0deg);
+  }
+
+  &--moon {
+    transform: rotate(360deg);
+  }
+}

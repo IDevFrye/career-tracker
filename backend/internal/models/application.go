@@ -13,6 +13,8 @@ type ApplicationStage struct {
 	StageName string    `json:"stage_name"`
 	Status    string    `json:"status"`
 	Date      time.Time `json:"date"`
+	Comment   string    `json:"comment"`
+	Icon      string    `json:"icon"`
 }
 
 type ApplicationResponse struct {

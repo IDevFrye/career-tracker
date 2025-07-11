@@ -20,7 +20,7 @@ type Config struct {
 }
 
 func NewSupabaseService() *SupabaseService {
-	data, err := os.ReadFile("../../config.yaml")
+	data, err := os.ReadFile("config.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}

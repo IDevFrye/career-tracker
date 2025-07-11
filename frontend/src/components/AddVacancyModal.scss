@@ -1,0 +1,454 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+}
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 0;
+  min-width: 600px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+
+  .modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0 24px;
+    margin-bottom: 16px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .modal__close-x {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      color: #666;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f5f5f5;
+        color: #333;
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 24px 24px 24px;
+    overflow-y: auto;
+    max-height: calc(80vh - 80px);
+
+    input,
+    select {
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      &:focus {
+        outline: none;
+        border-color: #4a90e2;
+      }
+    }
+
+    .stage-status-select {
+      background: white;
+    }
+
+    .modal__stages {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px;
+      background: #f9f9f9;
+
+      .modal__stages-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        span {
+          font-weight: 600;
+          color: #333;
+        }
+        button {
+          background: #4a90e2;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          padding: 6px 12px;
+          font-size: 0.9rem;
+          cursor: pointer;
+          &:hover {
+            background: #357ab8;
+          }
+        }
+      }
+
+      .modal__stage-row {
+        display: flex;
+        align-items: stretch;
+        background: #dce0e5;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(74, 144, 226, 0.07);
+        margin-bottom: 16px;
+        padding: 16px 12px;
+        gap: 16px;
+        position: relative;
+
+        .modal__stage-icon-select {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          min-width: 60px;
+          max-width: 60px;
+          .icon-picker-grid {
+            position: relative;
+            .icon-picker-btn {
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+              border: 2px solid #e0e7ef;
+              background: #fff;
+              font-size: 2.1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              transition: border 0.2s;
+              outline: none;
+              &:focus,
+              &:hover {
+                border-color: #4a90e2;
+              }
+              .icon-picker-btn__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+              }
+            }
+            .icon-picker-popover {
+              position: absolute;
+              top: 70px;
+              left: 0%;
+              transform: translateX(-0%);
+              background: #fff;
+              border: 1px solid #e0e7ef;
+              border-radius: 12px;
+              box-shadow: 0 4px 16px rgba(74, 144, 226, 0.13);
+              padding: 12px 10px;
+              display: grid;
+              grid-template-columns: repeat(5, 40px);
+              grid-template-rows: repeat(2, 40px);
+              gap: 8px;
+              z-index: 1000;
+              .icon-picker-cell {
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                border: none;
+                background: #f5f7fa;
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background 0.15s, box-shadow 0.15s;
+                outline: none;
+                &:hover,
+                &.selected {
+                  background: #e3f0ff;
+                  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.13);
+                }
+              }
+            }
+          }
+        }
+        .modal__stage-fields {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          justify-content: center;
+
+          .modal__stage-fields-row1 {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            input[type="text"],
+            select,
+            input[type="datetime-local"] {
+              flex: 1;
+              min-width: 0;
+              font-size: 1rem;
+              padding: 8px 10px;
+            }
+            input[type="text"] {
+              max-width: 140px;
+              font-size: 0.8rem;
+            }
+            select.stage-status-select {
+              max-width: 110px;
+              font-size: 0.8rem;
+            }
+            input[type="datetime-local"],
+            .stage-date-input {
+              max-width: 130px;
+              font-size: 0.7rem;
+            }
+          }
+          .modal__stage-fields-row2 {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            .stage-comment-input {
+              flex: 1;
+              min-width: 0;
+              max-width: 100%;
+              font-size: 0.8rem;
+              padding: 8px 10px;
+            }
+            .modal__remove-stage {
+              background: #e74c3c;
+              color: #fff;
+              border: none;
+              border-radius: 4px;
+              width: 32px;
+              height: 32px;
+              cursor: pointer;
+              font-size: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 8px;
+              transition: background 0.2s;
+              &:hover {
+                background: #c0392b;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .modal__recruiter-toggle {
+      margin-bottom: 0;
+      border-radius: 0 0 0 0;
+      border-bottom: none;
+      border-top: 1px solid #eee;
+      background: #f9f9f9;
+    }
+
+    .modal__recruiter-block {
+      margin-top: 0;
+      border-radius: 0 0 8px 8px;
+      border-top: none;
+      background: #f9f9f9;
+      box-shadow: none;
+      padding-top: 0;
+    }
+
+    .modal__error {
+      color: #e74c3c;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .modal__actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      button {
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        background: #4a90e2;
+        color: #fff;
+        transition: background 0.2s;
+        &:hover {
+          background: #357ab8;
+        }
+        &.modal__close-btn {
+          background: #eee;
+          color: #222;
+          &:hover {
+            background: #ccc;
+          }
+        }
+      }
+    }
+  }
+}
+
+.icon-picker-grid {
+  position: relative;
+}
+.icon-picker-popover {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transform: none;
+  min-width: 230px;
+  max-width: 520px;
+  grid-template-columns: repeat(5, 48px);
+  grid-template-rows: repeat(2, 48px);
+  background: #fff;
+  border: 1px solid #e0e7ef;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.13);
+  padding: 12px 10px;
+  display: grid;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.icon-picker-popover {
+  left: auto;
+  right: auto;
+  transform: none;
+  min-width: 230px;
+  max-width: 520px;
+  grid-template-columns: repeat(5, 48px);
+  grid-template-rows: repeat(2, 48px);
+}
+.icon-picker-grid {
+  position: relative;
+}
+@media (max-width: 900px) {
+  .modal {
+    min-width: 95vw;
+    max-width: 99vw;
+  }
+}
+
+.modal__recruiter-container {
+  background: #f5f7fa;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(74, 144, 226, 0.07);
+  flex-direction: column;
+  input {
+    width: 90%;
+  }
+  button {
+    width: 90%;
+    font-size: 0.9rem;
+  }
+}
+.modal__recruiter-block {
+  background: none;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  gap: 8px;
+}
+.modal__recruiter-toggle {
+  margin-top: 12px;
+  margin-bottom: 0;
+  border-radius: 8px;
+  border: none;
+  background: #f5f7fa;
+  color: #4a90e2;
+  font-weight: 500;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #e3f0ff;
+  }
+}
+.modal__recruiter-hide-btn {
+  background: #eee;
+  color: #666;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0;
+  margin-top: 4px;
+  transition: background 0.2s;
+  &:hover {
+    background: #ccc;
+  }
+}
+.modal__recruiter-block input {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  flex: 1;
+}
+
+@media (max-width: 700px) {
+  .modal__stages {
+    .modal__stage-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      .modal__stage-icon-select {
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 8px;
+        .icon-picker-btn {
+          width: 48px;
+          height: 48px;
+          font-size: 1.3rem;
+        }
+        .icon-picker-popover {
+          grid-template-columns: repeat(5, 32px);
+          grid-template-rows: repeat(2, 32px);
+          padding: 8px 4px;
+          .icon-picker-cell {
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+          }
+        }
+      }
+      .modal__stage-fields {
+        .modal__stage-fields-row1,
+        .modal__stage-fields-row2 {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    }
+  }
+}
