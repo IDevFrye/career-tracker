@@ -9,7 +9,6 @@ import (
 	"github.com/IDevFrye/main/internal/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
@@ -27,27 +26,16 @@ type Config struct {
 
 func loadConfig() (*Config, error) {
 	var config Config
+
+	config.Supabase.URL = os.Getenv("SUPABASE_URL")
+	config.Supabase.Key = os.Getenv("SUPABASE_KEY")
+	config.Auth.JwtSecret = os.Getenv("JWT_SECRET")
 	
-	// Сначала пытаемся загрузить из файла (для локальной разработки)
-	data, err := os.ReadFile("config.yaml")
-	if err == nil {
-		err = yaml.Unmarshal(data, &config)
-		if err != nil {
-			return nil, err
-		}
+	corsOrigins := os.Getenv("CORS_ORIGINS")
+	if corsOrigins != "" {
+		config.CORS.Origins = []string{corsOrigins}
 	} else {
-		// Если файл не найден, загружаем из переменных окружения (для продакшена)
-		config.Supabase.URL = os.Getenv("SUPABASE_URL")
-		config.Supabase.Key = os.Getenv("SUPABASE_KEY")
-		config.Auth.JwtSecret = os.Getenv("JWT_SECRET")
-		
-		// CORS origins из переменной окружения (разделены запятыми)
-		corsOrigins := os.Getenv("CORS_ORIGINS")
-		if corsOrigins != "" {
-			config.CORS.Origins = []string{corsOrigins}
-		} else {
-			config.CORS.Origins = []string{"*"} // По умолчанию разрешаем всем
-		}
+		config.CORS.Origins = []string{"*"}
 	}
 
 	return &config, nil
