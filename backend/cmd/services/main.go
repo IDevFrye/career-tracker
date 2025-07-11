@@ -13,15 +13,15 @@ import (
 
 type Config struct {
 	Supabase struct {
-		URL string `yaml:"url"`
-		Key string `yaml:"key"`
-	} `yaml:"supabase"`
+		URL string
+		Key string
+	}
 	CORS struct {
-		Origins []string `yaml:"origins"`
-	} `yaml:"cors"`
+		Origins []string
+	}
 	Auth struct {
-		JwtSecret string `yaml:"jwt_secret"`
-	} `yaml:"auth"`
+		JwtSecret string
+	}
 }
 
 func loadConfig() (*Config, error) {
@@ -65,10 +65,23 @@ func main() {
 	questionAPI := api.NewQuestionAPI(questionService)
 	statsAPI := api.NewStatsAPI(statsService)
 
-	apiGroup := r.Group("/", middleware.AuthRequired([]byte(config.Auth.JwtSecret)))
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "ok",
+			"service": "career-tracker-backend",
+			"version": "1.0.0",
+		})
+	})
+
+	apiGroup := r.Group("/api", middleware.AuthRequired([]byte(config.Auth.JwtSecret)))
 	applicationAPI.RegisterRoutes(apiGroup)
 	questionAPI.RegisterRoutes(apiGroup)
 	statsAPI.RegisterRoutes(apiGroup)
 
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	
+	r.Run(":" + port)
 }
