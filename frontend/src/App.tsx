@@ -21,7 +21,6 @@ import "./utils/chartConfig";
 
 const AppRoutes: React.FC<{ session: any }> = ({ session }) => {
   const location = useLocation();
-  // Проверяем, есть ли access_token в hash (OAuth flow)
   const hasOAuthHash =
     typeof window !== "undefined" &&
     window.location.hash.includes("access_token");
@@ -56,12 +55,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log("Initial session:", session);
       setSession(session);
     });
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log("Auth state change:", event, session);
         setSession(session);
       }
     );

@@ -124,6 +124,20 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
+  // Функция для сброса формы
+  const resetForm = () => {
+    setFormData({
+      application_id: "",
+      question: "",
+      answer: "",
+      tags: "",
+      difficulty: 3,
+    });
+    setTags([]);
+    setTagInput("");
+    setErrors({});
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -150,14 +164,17 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({
       // Обновляем список вопросов
       dispatch(fetchQuestions());
 
+      resetForm();
       onClose();
     } catch (error) {
-      console.error("Ошибка при обновлении вопроса:", error);
+      // Можно оставить console.error для ошибок, но если нужно убрать - закомментируй
+      // console.error("Ошибка при обновлении вопроса:", error);
     }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
+      resetForm();
       onClose();
     }
   };
@@ -171,7 +188,10 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({
           <h2>Редактировать вопрос</h2>
           <button
             className="edit-question-modal__close-btn"
-            onClick={onClose}
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
             type="button"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

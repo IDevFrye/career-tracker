@@ -57,13 +57,11 @@ const AuthPage: React.FC = () => {
   useSupabaseAuthErrorLocalization();
   const location = useLocation();
 
-  // Простая обработка recovery
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const type = params.get("type");
 
     if (type === "recovery") {
-      console.log("Recovery detected, signing out...");
       supabase.auth.signOut();
     }
   }, [location]);
@@ -102,7 +100,7 @@ const AuthPage: React.FC = () => {
                 link_text: "Нет аккаунта? Зарегистрироваться",
                 confirmation_text: "Проверьте вашу электронную почту",
                 social_provider_text:
-                  "Зарегестрироваться с помощью {{provider}}",
+                  "Зарегистрироваться с помощью {{provider}}",
               },
               forgotten_password: {
                 email_label: "Email",

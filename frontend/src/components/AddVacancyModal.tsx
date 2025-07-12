@@ -130,6 +130,23 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
   });
   const [error, setError] = useState("");
 
+  // Функция для сброса формы
+  const resetForm = () => {
+    setUrl("");
+    setStages([
+      {
+        stage_name: "",
+        status: "",
+        date: getLocalDateTimeString(),
+        comment: "",
+        icon: "Компьютер",
+      },
+    ]);
+    setShowRecruiter(false);
+    setRecruiter({ recruiter_name: "", recruiter_contact: "" });
+    setError("");
+  };
+
   if (!open) return null;
 
   const handleStageChange = (
@@ -185,6 +202,13 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
         : undefined,
       stages: preparedStages,
     });
+    resetForm(); // Очищаем форму после успешной отправки
+  };
+
+  // Обертка для onClose, чтобы сбрасывать форму при закрытии
+  const handleClose = () => {
+    resetForm();
+    onClose();
   };
 
   return (
@@ -192,7 +216,7 @@ const AddVacancyModal: React.FC<AddVacancyModalProps> = ({
       <div className="modal">
         <div className="modal__header">
           <h2>Добавить отклик</h2>
-          <button className="modal__close-x" onClick={onClose}>
+          <button className="modal__close-x" onClick={handleClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
             </svg>

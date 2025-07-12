@@ -410,7 +410,7 @@ const QuestionsPage: React.FC = () => {
               {filteredAndSortedQuestions &&
                 questions &&
                 `Показано${" "}
-              ${filteredAndSortedQuestions?.length} из ${questions?.length}{" "}
+              ${filteredAndSortedQuestions?.length} из ${questions?.length}
               вопросов`}
             </div>
             <div className="questions-page__grid">

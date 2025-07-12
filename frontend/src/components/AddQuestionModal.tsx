@@ -32,6 +32,20 @@ const AddQuestionModal: React.FC<AddQuestionModalProps> = ({
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  // Функция для сброса формы
+  const resetForm = () => {
+    setFormData({
+      application_id: "",
+      question: "",
+      answer: "",
+      tags: "",
+      difficulty: 3,
+    });
+    setTags([]);
+    setTagInput("");
+    setErrors({});
+  };
+
   useEffect(() => {
     if (open) {
       dispatch(fetchVacancies());
@@ -129,25 +143,17 @@ const AddQuestionModal: React.FC<AddQuestionModalProps> = ({
       dispatch(fetchQuestions());
 
       // Сбрасываем форму
-      setFormData({
-        application_id: "",
-        question: "",
-        answer: "",
-        tags: "",
-        difficulty: 3,
-      });
-      setTags([]);
-      setTagInput("");
-      setErrors({});
-
+      resetForm();
       onClose();
     } catch (error) {
-      console.error("Ошибка при добавлении вопроса:", error);
+      // Можно оставить console.error для ошибок, но если нужно убрать - закомментируй
+      // console.error("Ошибка при добавлении вопроса:", error);
     }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
+      resetForm();
       onClose();
     }
   };
@@ -161,7 +167,10 @@ const AddQuestionModal: React.FC<AddQuestionModalProps> = ({
           <h2>Добавить вопрос</h2>
           <button
             className="add-question-modal__close-btn"
-            onClick={onClose}
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
             type="button"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
