@@ -57,6 +57,7 @@ const AuthPage: React.FC = () => {
   useSupabaseAuthErrorLocalization();
   const location = useLocation();
 
+  // Простая обработка recovery
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const type = params.get("type");
@@ -67,12 +68,6 @@ const AuthPage: React.FC = () => {
     }
   }, [location]);
 
-  const params = new URLSearchParams(location.search);
-  const type = params.get("type");
-  const accessToken = params.get("access_token");
-  const isRecovery =
-    type === "recovery" || (accessToken && type === "recovery");
-
   return (
     <div className="auth-page">
       <header className="auth-page__header">
@@ -81,6 +76,7 @@ const AuthPage: React.FC = () => {
       </header>
       <div className="auth-page__content">
         <Auth
+          redirectTo="https://frontend-alpha-nine-77.vercel.app"
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={["google", "github"]}

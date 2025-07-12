@@ -21,14 +21,12 @@ import "./utils/chartConfig";
 
 const AppRoutes: React.FC<{ session: any }> = ({ session }) => {
   const location = useLocation();
-  const isRecovery =
-    location.pathname === "/auth" &&
-    (location.search.includes("type=recovery") ||
-      location.search.includes("access_token"));
+
+  // Простая логика редиректов
   if (!session && location.pathname !== "/auth") {
     return <Navigate to="/auth" replace />;
   }
-  if (session && location.pathname === "/auth" && !isRecovery) {
+  if (session && location.pathname === "/auth") {
     return <Navigate to="/" replace />;
   }
   return (
@@ -55,10 +53,12 @@ const App: React.FC = () => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Initial session:", session);
       setSession(session);
     });
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
+        console.log("Auth state change:", event, session);
         setSession(session);
       }
     );
