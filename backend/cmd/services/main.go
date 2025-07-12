@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/IDevFrye/main/internal/api"
 	"github.com/IDevFrye/main/internal/middleware"
@@ -33,7 +34,12 @@ func loadConfig() (*Config, error) {
 	
 	corsOrigins := os.Getenv("CORS_ORIGINS")
 	if corsOrigins != "" {
-		config.CORS.Origins = []string{corsOrigins}
+		// Разбиваем по запятой и убираем пробелы
+		origins := strings.Split(corsOrigins, ",")
+		for i := range origins {
+			origins[i] = strings.TrimSpace(origins[i])
+		}
+		config.CORS.Origins = origins
 	} else {
 		config.CORS.Origins = []string{"*"}
 	}
