@@ -21,9 +21,12 @@ import "./utils/chartConfig";
 
 const AppRoutes: React.FC<{ session: any }> = ({ session }) => {
   const location = useLocation();
+  // Проверяем, есть ли access_token в hash (OAuth flow)
+  const hasOAuthHash =
+    typeof window !== "undefined" &&
+    window.location.hash.includes("access_token");
 
-  // Простая логика редиректов
-  if (!session && location.pathname !== "/auth") {
+  if (!session && location.pathname !== "/auth" && !hasOAuthHash) {
     return <Navigate to="/auth" replace />;
   }
   if (session && location.pathname === "/auth") {
