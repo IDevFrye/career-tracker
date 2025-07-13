@@ -15,6 +15,7 @@ Career Tracker - это полнофункциональное веб-прило
 ## Деплой
 
 Полноцфункционально сайт доступен по адресу: `https://frontend-alpha-nine-77.vercel.app/`
+
 Сервер доступен по адресу: `https://career-tracker-h4v9.onrender.com/api`
 
 ## Архитектура
@@ -27,24 +28,6 @@ career-tracker/
 ├── frontend/         # React SPA приложение
 └── README.md
 ```
-
-### Backend (Go)
-
-- **Фреймворк**: Gin
-- **База данных**: Supabase (PostgreSQL)
-- **Аутентификация**: JWT + Supabase Auth
-- **API**: RESTful API с CORS поддержкой
-- **Интеграции**: HeadHunter API для получения данных о вакансиях
-
-### Frontend (React + TypeScript)
-
-- **Фреймворк**: React 18
-- **Управление состоянием**: Redux Toolkit
-- **Маршрутизация**: React Router DOM
-- **Стилизация**: SCSS с поддержкой темной/светлой темы
-- **Графики**: Chart.js + react-chartjs-2
-- **HTTP клиент**: Axios
-- **Аутентификация**: Supabase Auth UI
 
 ## Основные функции
 
